@@ -4,6 +4,7 @@
 
 let sendCodeUrl = '/sendCode' //发送验证码
 let loginUrl = '/login'       //注册/登录
+let passwordLoginUrl = '/passwordLogin' //账号/密码登录
 let forgetUrl = '/forget' //忘记密码/更换密码
 let getUserInfoUrl = '/getUserInfo' //获取个人信息
 let getNeedsListUrl = '/custom'     //获取商户定制需求列表
@@ -38,6 +39,8 @@ const install = (Vue, vm) => {
 	let sendCode = (params = {}) =>vm.$u.post(sendCodeUrl,params);
 	//注册/登录
 	let login = (params = {}) =>vm.$u.post(loginUrl,params);
+	//账号密码登录/
+	let passwordLogin = (params = {}) =>vm.$u.post(passwordLoginUrl,params);
 	//更换密码
 	let changePassword = (params = {}) =>vm.$u.post(forgetUrl,params);
 	//获取个人信息
@@ -98,6 +101,7 @@ const install = (Vue, vm) => {
 	vm.$u.api = {
 		sendCode,
 		login,
+		passwordLogin,
 		changePassword,
 		getUserInfo,
 		getNeedsList,

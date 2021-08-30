@@ -137,11 +137,11 @@
 							
 							uni.requestPayment({
 							    provider: 'wxpay',
-							    timeStamp:res.data.prepay.timeStamp,
-							    nonceStr:res.data.prepay.nonceStr,
-							    package: res.data.prepay.nonceStr,
-							    signType: res.data.prepay.signType,
-							    paySign: res.data.prepay.signType,
+								timeStamp:res.data.prepay.timeStamp,
+								nonceStr:res.data.prepay.nonceStr,
+								package: res.data.prepay.package,
+								signType: res.data.prepay.signType,
+								paySign: res.data.prepay.paySign,
 							    success: function (res) {
 							        //支付成功回调,并跳转页面
 									self.$u.api.setShareHistory().then(res =>{

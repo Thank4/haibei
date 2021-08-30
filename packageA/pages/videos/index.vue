@@ -84,19 +84,21 @@
 				</view>
 				<view class="coment">
 					<u-row gutter="16">
-								<u-col span="7">
-									<view>
+								<u-col span="9">
+									<view class="num">
 										<u-icon name="../../../static/icon/read_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
 										{{item.play ? item.play:0}}
 										</view>
 								</u-col>
-								<u-col span="3">
-									<view><u-icon name="chat" :custom-style="{'margin-right':'14rpx'}">0</u-icon>
-									
+								<!-- <u-col span="3">
+									<view>
+										<u-icon name="../../../static/icon/pl_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31">0</u-icon>
 									</view>
-								</u-col>
-								<u-col span="2">
-									<view><u-icon name="heart" :custom-style="{'margin-right':'14rpx'}"></u-icon>{{item.likes ? item.like : 0 }}</view>
+								</u-col> -->
+								<u-col span="3">
+									<view class="num">
+										<u-icon name="../../../static/icon/dz_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
+										{{item.likes ? item.like : 0 }}</view>
 								</u-col>
 							</u-row>
 				</view>
@@ -264,6 +266,12 @@
 	}
 	.item{
 		margin: 34rpx 55rpx 20rpx 44rpx;
+	}
+	.num{
+		font-size: 35rpx;
+		height: 31rpx;
+		line-height: 31rpx;
+		vertical-align: top;
 	}
 	.cover-img{
 		width: 677rpx;

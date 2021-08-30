@@ -122,18 +122,17 @@
 											}
 										})
 									}
-								
 								     //分发，调起支付
-									 console.log('验证通过');
-									 console.log(this.form.file_id)
-									 console.log(this.form.title)
-									 console.log(this.form.desc)
-									 console.log(this.form.tags)
-									 console.log(this.form.title_en)
-									 console.log(this.form.desc_en)
-									 console.log(this.form.tags_en)
-									 console.log(this.ip_id)
-									 console.log(this.vuex_openId)
+									 // console.log('验证通过');
+									 // console.log(this.form.file_id)
+									 // console.log(this.form.title)
+									 // console.log(this.form.desc)
+									 // console.log(this.form.tags)
+									 // console.log(this.form.title_en)
+									 // console.log(this.form.desc_en)
+									 // console.log(this.form.tags_en)
+									 // console.log(this.ip_id)
+									 // console.log(this.vuex_openId)
 									 //TODO  一键分发
 									 let self = this
 									 self.$u.api.share({
@@ -153,14 +152,13 @@
 									 			case 1: //未付款,
 									 			//TODO 微信小程序支付
 									 			console.log(res.data.prepay.timeStamp)
-									 			
 									 			uni.requestPayment({
 									 			    provider: 'wxpay',
 									 			    timeStamp:res.data.prepay.timeStamp,
 									 			    nonceStr:res.data.prepay.nonceStr,
-									 			    package: res.data.prepay.nonceStr,
+									 			    package: res.data.prepay.package,
 									 			    signType: res.data.prepay.signType,
-									 			    paySign: res.data.prepay.signType,
+									 			    paySign: res.data.prepay.paySign,
 									 			    success: function (res) {
 									 			        //支付成功回调,并跳转页面
 									 					self.$u.api.setShareHistory().then(res =>{

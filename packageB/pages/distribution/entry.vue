@@ -56,12 +56,7 @@
 		<u-action-sheet :list="list2" v-model="show2" @click="actionSheetCallback2"></u-action-sheet>
 		<u-action-sheet :list="list3" v-model="showSites" @click="actionSheetCallback3"></u-action-sheet>
 		<u-toast ref="uToast" />
-		<u-mask :show="loading" @click="loading = false" mask-click-able="false">
-			<view class="warp">
-				<u-loading show mode="circle">
-				</u-loading>
-			</view>
-		</u-mask>
+	
 	</view>
 </template>
 
@@ -91,7 +86,6 @@
 				list3:[],
 				AllCategory:[],
 				isupload:false,
-				loading:false,
 				showSites:false
 			}
 		},
@@ -134,28 +128,39 @@
 					count: 1,
 					sourceType: ['camera', 'album'],
 					success: function (res) {
-						self.loading = true
-						uni.uploadFile({
-						            url: 'https://wechat.seabeek.cn/weapp/upFiles', //仅为示例，非真实的接口地址
-						            filePath: res.tempFilePath,
-						            name: 'file',
-									header:{
-										'Access-Token':self.vuex_token
-									},
-						            formData: {
-						                'type': 'video'
-						            },
-						            success: (res) => {
-										self.loading = false
-										self.isupload = true
-										let jsonr = JSON.parse(res.data)
-										self.url = jsonr.data.res.path
-										self.$refs.uToast.show({
-											position:'top',
-											title:'视频上传成功'
-											})
-						            }
-						        });
+						uni.showLoading({
+						    title: '上传中',
+							success:function(){
+								uni.uploadFile({
+								            url: 'https://wechat.seabeek.cn/weapp/upFiles', //仅为示例，非真实的接口地址
+								            filePath: res.tempFilePath,
+								            name: 'file',
+											header:{
+												'Access-Token':self.vuex_token
+											},
+								            formData: {
+								                'type': 'video'
+								            },
+											fail(){
+												uni.hideLoading();
+											},
+								            success: (res) => {
+												
+												self.isupload = true
+												let jsonr = JSON.parse(res.data)
+												self.url = jsonr.data.res.path
+												self.$refs.uToast.show({
+													position:'top',
+													title:'视频上传成功'
+													})
+								            },
+											complete() {
+												uni.hideLoading();
+											}
+								    });
+							}
+						});
+						
 					}
 				});
 			},

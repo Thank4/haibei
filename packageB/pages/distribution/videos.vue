@@ -19,7 +19,7 @@
 			</u-row>
 			</template>
 			
-			<teleport v-else>
+			<template v-else>
 				<u-empty
 				margin-top="300"
 				icon-size="400rpx"
@@ -27,7 +27,7 @@
 				src="../../../static/icon/emptyVideo_icon.png">
 				<u-button slot="bottom" type="primary" size="mini" @click="uploadVideo()">上传视频</u-button>
 				</u-empty>
-			</teleport>
+			</template>
 			
 			<!-- 固定底部 -->
 			<view class="bar">

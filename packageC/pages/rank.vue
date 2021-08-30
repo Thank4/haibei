@@ -10,10 +10,12 @@
 			<view class="coment">
 				<u-row gutter="16">
 							<u-col span="9">
-								<view><u-icon name="../../../static/icon/read_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>{{item.watch}}</view>
+								<view class="num">
+									<u-icon name="../../../static/icon/read_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>{{item.watch}}</view>
 							</u-col>
 							<u-col span="3">
-								<view><u-icon name="heart" :custom-style="{'margin-right':'14rpx'}"></u-icon>{{item.like}}</view>
+								<view  class="num">
+									<u-icon name="../../../static/icon/dz_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>{{item.like}}</view>
 							</u-col>
 						</u-row>
 			</view>
@@ -58,6 +60,12 @@
 	.cover-img{
 		width: 677rpx;
 		height: 374rpx;
+	}
+	.num{
+		font-size: 32rpx;
+		height: 31rpx;
+		line-height: 31rpx;
+		vertical-align: top;
 	}
 	.item-title{
 		margin: 34rpx 0 30rpx 0;

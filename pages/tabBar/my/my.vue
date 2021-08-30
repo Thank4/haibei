@@ -19,7 +19,7 @@
 							</view>
 						</u-col>
 						<u-col span="3">
-							<u-button  shape="circle" :custom-style="btnStyle1">退出</u-button>
+							<u-button shape="circle" :custom-style="btnStyle1" @click="logout">退出</u-button>
 						</u-col>
 					</u-row>
 					</view>
@@ -155,7 +155,14 @@
 				this.$u.route('/packageA/pages/login/login');
 			},
 			logout(){
-				
+				//注销，不做回调
+				this.$u.vuex('vuex_hasLogin', false)
+				this.$u.vuex('vuex_token', '') //用户token
+				this.$u.vuex('vuex_user', {}) //用户信息
+				this.$u.vuex('vuex_openId', '')//用户openId
+				this.$u.route({
+					url:'/packageA/pages/login/login'
+				})
 			}
 		}
 	}

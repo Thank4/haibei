@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<view class="wrap">
-			<view class="u-tabs-box">
+		<view class="wrap u-skeleton" >
+			<view class="u-tabs-box u-skeleton-fillet">
 				<u-tabs-swiper ref="tabs" :list="type" :current="current" @change="change" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
 			</view>
 			<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
@@ -11,7 +11,7 @@
 					<scroll-view scroll-y style="height: 100%;width: 100%;">
 						<view class="page-box">
 						
-						<view class="item" v-for="item in list">
+						<view class="item " v-for="item in list" >
 							<view class="cover-img">
 								<u-image :src="item.preview" width="626" height="482" mode="widthFix"></u-image>
 							</view>
@@ -31,6 +31,7 @@
 
 			</swiper>
 		</view>
+		<!-- <u-skeleton :loading="loading" :animation="true" el-color="#ddd" bgColor="#FFF"></u-skeleton> -->
 	</view>
 </template>
 
@@ -38,16 +39,13 @@
 	export default{
 		data(){
 			return{
-				type: [
-					{
-						id:'0',
-						name: '全部'
-					}
-				],
+				type: [],
 				list:[],
 				current: 0,
 				swiperCurrent: 0,
 				tabsHeight: 0,
+				loading:true,
+				templateList:[]
 				
 
 			}
@@ -61,12 +59,15 @@
 				this.$u.api.getTemplateTypeAll().then(res=>{
 					let self = this
 					if(res.code == 200){
+						
+						let temp = [{id:0,name:'全部'}]
 						res.data.map(function(item,index){
-							self.type.push({
+							temp.push({
 								id:item.id,
 								name:item.name
 							})
 						})
+						this.type = temp
 					}
 				})
 				
@@ -75,23 +76,42 @@
 			change(index) {
 				console.log('tab切换')
 				this.swiperCurrent = index;
-				this.getTemplate(this.type[index].id)
+				this.showList(index)
+				//this.getTemplate(this.type[index].id)
 			},
 			transition({ detail: { dx } }) {
 				this.$refs.tabs.setDx(dx);
 			},
 			animationfinish({ detail: { current } }) {
-				console.log(current)
 				this.$refs.tabs.setFinishCurrent(current);
 				this.swiperCurrent = current;
-				this.current = current;
-				this.getTemplate(this.type[current].id)
+				this.current = current
+				this.showList(current)
+				//this.getTemplate(this.type[current].id)
+			},
+			//根据索引获取对应的渲染数据
+			showList(index){
+				console.log(this.templateList)
+				console.log(index)
+				if(index==0){
+					this.list = this.templateList
+				}else{
+					this.list = []
+					let self = this
+					this.templateList.map(function(item){
+						if(item.template_type_id==self.type[index]['id']){
+							self.list.push(item)
+						}
+					})
+				}
+				console.log(this.type[index]['id'])
 			},
 			//根据模板类型id获取模板列表
 			getTemplate(type_id){
 				this.$u.api.getTemplate({type_id:type_id}).then(res=>{
 					let self = this
 					if(res.code == 200){
+						self.templateList = res.data
 						self.list = res.data
 					}
 				})
@@ -117,6 +137,9 @@
 		flex-direction: column;
 		height: calc(100vh - var(--window-top));
 		width: 100%;
+	}
+	.u-skeleton{
+		height: calc(100vh - var(--window-top));
 	}
 	.labelTitle{
 		height: 90rpx;

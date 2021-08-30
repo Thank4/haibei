@@ -49,9 +49,15 @@
                 {
                     "path" : "pages/login/login",
                     "style" : {
-                        "navigationBarTitleText" : "登录"
+                        "navigationBarTitleText" : "登录海贝"
                     }
                 },
+				{
+				    "path" : "pages/login/loginByPass",
+				    "style" : {
+				        "navigationBarTitleText" : "登录海贝"
+				    }
+				},
                 {
                     "path" : "pages/account/changePassword",
                     "style" : {
@@ -225,7 +231,7 @@
     "preloadRule" : {},
     "globalStyle" : {
         "navigationBarTextStyle" : "black",
-        "navigationBarTitleText" : "uView UI",
+        "navigationBarTitleText" : "海贝服务",
         "navigationBarBackgroundColor" : "#FFFFFF",
         "backgroundColor" : "#F8F8F8"
     },
@@ -267,8 +273,8 @@
         "list" : [
             { 
                 "name" : "", //模式名称 
-               "path" : "pages/tabBar/staticon/staticon", //启动页面，必选
-			  // "path" : "packageD/pages/template/list",
+               "path" : "/packageD/pages/template/select", //启动页面，必选
+			   //"path" : "packageA/pages/login/loginByPass",
                 "query" : "" //启动参数，在页面的onLoad函数里面得到
             }
         ]
