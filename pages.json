@@ -273,9 +273,9 @@
         "list" : [
             { 
                 "name" : "", //模式名称 
-               "path" : "/packageD/pages/template/select", //启动页面，必选
-			   //"path" : "packageA/pages/login/loginByPass",
-                "query" : "" //启动参数，在页面的onLoad函数里面得到
+               //"path" : "packageA/pages/videos/index", //启动页面，必选
+			    "path" : "pages/tabBar/staticon/staticon",
+               "query" : "" //启动参数，在页面的onLoad函数里面得到
             }
         ]
     }

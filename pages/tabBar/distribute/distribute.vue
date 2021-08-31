@@ -14,7 +14,7 @@
 					<template v-for="(item,index) in cellList">
 					<u-gap height="32"></u-gap>
 					<u-cell-item bg-color="#F4F5F6" title="ip1" :arrow="false"  :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" >
-						<u-image width="41" height="48" slot="icon" src="/static/icon/ip_icon.png"></u-image>
+						<u-image width="42" height="50" slot="icon" src="/static/icon/ip_icon.png"></u-image>
 						<u-button type="primary" shape ="circle" :custom-style="edit" @click="account(index)">编辑</u-button>
 						<u-radio :name="item.id" slot="right-icon">{{item.area}}</u-radio>
 					</u-cell-item>
@@ -71,6 +71,9 @@
 		<!-- ActionSheet 操作 -->
 		<u-action-sheet :list="list" v-model="show"></u-action-sheet>
 		<!--ActionSheet  end -->
+		
+		<!--TopTips-->
+		<u-top-tips ref="uTips"></u-top-tips>
 		
 	</view>
 </template>
@@ -145,11 +148,12 @@
 					return
 				}
 				if(!this.index){
-					this.$refs.uToast.show({
-						position:'top',
-						title:'请选择ip'
-						})
-						return
+					this.$refs.uTips.show({
+						title: '请选择ip',
+						type: 'primary',
+						duration: '2300'
+					})
+					return
 				}
 				this.$u.route({
 					url:'/packageB/pages/distribution/videos',
@@ -164,11 +168,12 @@
 					return
 				}
 				if(!this.index){
-					this.$refs.uToast.show({
-						position:'top',
-						title:'请选择ip'
-						})
-						return
+					this.$refs.uTips.show({
+						title: '请选择ip',
+						type: 'primary',
+						duration: '2300'
+					})
+					return
 				}
 				this.$u.route({
 					url:'/packageB/pages/distribution/webff',

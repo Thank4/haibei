@@ -43,9 +43,8 @@
 								<u-image width="41" height="39" slot="icon" src="/static/icon/spk_icon.png"></u-image>
 							</u-cell-item>
 					</u-cell-group>
+					
 					</view>
-		
-		
 	</template>
 		
 	<template v-else>
@@ -89,6 +88,11 @@
 					</u-cell-group>
 					</view>
 	</template>
+	<u-modal 
+	v-model="modalShow"
+	show-cancel-button="取消"
+	 @confirm = "clearLogin" 
+	content="确认退出？"></u-modal>
 	</view>
 	
 </template>
@@ -110,7 +114,8 @@
 					color:'rgb(66,147,244)',
 					margin:'40rpx 0',
 					background:'rgb(244,245,246)',
-				}
+				},
+				modalShow:false
 			}
 		},
 		methods: {
@@ -155,6 +160,10 @@
 				this.$u.route('/packageA/pages/login/login');
 			},
 			logout(){
+				this.modalShow = true
+				
+			},
+			clearLogin(){
 				//注销，不做回调
 				this.$u.vuex('vuex_hasLogin', false)
 				this.$u.vuex('vuex_token', '') //用户token

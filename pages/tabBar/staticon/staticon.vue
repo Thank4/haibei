@@ -36,7 +36,7 @@
 		<view v-if="vuex_hasLogin">
 			<view class="login">
 				<u-button shape="circle" type="primary" hover-class="none" :custom-style="domainBtn">{{vuex_pc_link}}</u-button>
-				<u-button shape="circle" :custom-style="linkBtn" :ripple="true" ripple-bg-color="#88b9ff">获取链接</u-button>
+				<u-button shape="circle" :custom-style="linkBtn" :ripple="true" ripple-bg-color="#88b9ff" @click="copy">获取链接</u-button>
 				<p>您还没有使用一键建站，请登录PC端开始建站喔！</p>
 			</view>
 		</view>
@@ -111,6 +111,19 @@
 				}else{
 				this.$u.route('/packageD/pages/template/list');
 				}
+			},
+			copy(){
+				console.log(this)
+				console.log(this.vuex_pc_link)
+				uni.setClipboardData({
+				    data:this.vuex_pc_link ,
+				    success: function (res) {
+						console.log(res)
+				    },
+					fail(err) {
+						console.log(err)
+					}
+				});
 			}
 			
 		}

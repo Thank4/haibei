@@ -142,9 +142,11 @@
 								package: res.data.prepay.package,
 								signType: res.data.prepay.signType,
 								paySign: res.data.prepay.paySign,
-							    success: function (res) {
+							    success: function (response) {
 							        //支付成功回调,并跳转页面
-									self.$u.api.setShareHistory().then(res =>{
+									self.$u.api.setShareHistory({
+										order_no:res.data.order_no
+									}).then(res =>{
 										if(res.code == 200){
 											//TODO 跳转支付成功页面，提示
 											self.$u.route('/packageB/pages/distribution/paySuccess')

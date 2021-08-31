@@ -52,14 +52,13 @@
 		},
 		onLoad(){
 			this.init()
-			this.getTemplate({type_id:0})
+			this.getTemplate(0)
 		},
 		methods:{
 			init(){
 				this.$u.api.getTemplateTypeAll().then(res=>{
 					let self = this
 					if(res.code == 200){
-						
 						let temp = [{id:0,name:'全部'}]
 						res.data.map(function(item,index){
 							temp.push({
@@ -86,6 +85,8 @@
 				this.$refs.tabs.setFinishCurrent(current);
 				this.swiperCurrent = current;
 				this.current = current
+				
+				//这边不根据ID，更新数据，第一次直接遍历好各种的
 				this.showList(current)
 				//this.getTemplate(this.type[current].id)
 			},
@@ -109,6 +110,7 @@
 			//根据模板类型id获取模板列表
 			getTemplate(type_id){
 				this.$u.api.getTemplate({type_id:type_id}).then(res=>{
+					console.log(res)
 					let self = this
 					if(res.code == 200){
 						self.templateList = res.data

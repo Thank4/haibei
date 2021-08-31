@@ -12,7 +12,7 @@
 						<u-input v-model="form.code"  placeholder="输入短信验证码"/>
 					</u-form-item>
 					<u-form-item  prop="password" label-position="top">
-						<u-input v-model="form.password" type="password" placeholder="输入密码"/>
+						<u-input v-model="form.password" type="password"  placeholder="输入密码"/>
 					</u-form-item>
 					<u-form-item  prop="confirmPassword" label-position="top">
 						<u-input v-model="form.confirmPassword" type="password" placeholder="确认密码"/>

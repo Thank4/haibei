@@ -23,8 +23,8 @@
 								<template v-slot:content>
 									<view>
 										<view class="u-order-title">第一步：选择服务器</view>
-										<view class="u-order-desc">可以选择讲网然解析到国内服务器或者国外服务器（若你想了解服务器，请查询<view
-												class="text-line">网处服务器/主机</view>）</view>
+										<view class="u-order-desc">可以选择将网站解析到国内服务器或者国外服务器，（若你想了解服务器，请看<view
+												class="text-line">网站服务器/主机</view>）</view>
 									</view>
 								</template>
 							</u-time-line-item>
@@ -38,17 +38,17 @@
 								</template>
 								<template v-slot:content>
 									<view>
-										<view class="u-order-title">第二步：子域名解析</view>
+										<view class="u-order-title">第二步：www子域名解析</view>
 										<view class="u-order-desc">
-											<view>添加以下记录后，你的子域名(比如www.xxx.com)就可以正常访问。</view>
-											<view>1、登录云解析DNS控制台。</view>
-											<view>2、在“域名解析”页面下，点击相应的域名，进入其解析设置页面。</view>
-											<view>3、点击“添加记录”按钮（以解析到国内服务器为例）;</view>
-											<view>记录类型CNAME-将域名指向另一个域名</view>
+											<view>添加以下记录后，你的 www 子域名（比如 www.xxx.com）就可以正常访问。</view>
+											<view>1. 登录云解析DNS控制台。</view>
+											<view>2. 在"域名解析"页面下，点击相应的域名，进入其解析设置页面。</view>
+											<view>3. 点击“添加记录”按钮（以解析到国内服务器为例）：</view>
+											<view>记录类型：CNAME(将域名指向另一个域名)</view>
 											<view>主机记录：www</view>
 											<view>解析线路：默认</view>
-											<view>记 录 值：你的<view class="text-blue"> www域名</view>+<view class="text-blue">ssxidnscom</view></view>
-											<view>例：www.xxxcomssxldnscom（请将<view class="text-blue">wwwxxxcom</view>更改为你的域名，然后再加入<view class="text-blue">.s.ssxidns.com</view>）</view>
+											<view>记 录 值：你的<view class="text-blue"> www域名</view>+<view class="text-blue">.s.seabeek.com</view></view>
+											<view>例：www.xxx.com.s.seabeek.com（这只是个例子，请将<view class="text-blue">www.xxx.com</view>更改为你的域名，然后再加上<view class="text-blue">.s.seabeek.com</view>）</view>
 											<view>TTL：默认</view>
 											<view>4、点击“确定”</view>
 										</view>
@@ -65,15 +65,15 @@
 								</template>
 								<template v-slot:content>
 									<view>
-										<view class="u-order-title">第三步：主机域名解析</view>
+										<view class="u-order-title">第三步：根域名解析</view>
 										<view class="u-order-desc">
-											<view>1、添加以下记录后，你的主域名(比如xxxcom)就可以正常访问。</view>
-											<view>2、同样的也是添加一条“CNAME”记录（以解析到国内服务器为例）。</view>
+											<view>1、添加以下记录后，你的主域名（比如 xxx.com）就可以正常访问。</view>
+											<view>2、同样的也是添加一条”CNAME“记录（以解析到国内服务器为例）：</view>
 											<view>记录类型：选择CNAME</view>
 											<view>主机记录：@</view>
 											<view>解析线路：默认</view>
-											<view>记 录 值：你的<view class="text-blue"> 主域名/根域名</view>+<view class="text-blue">ssxidns.com</view></view>
-											<view>例：www.xxxcomssxldnscom（请将<view class="text-blue">xxxcom</view>更改为你的域名，然后再加入<view class="text-blue">.ssxidns.com</view>）</view>
+											<view>记 录 值：你的<view class="text-blue"> 主域名/根域名</view>+<view class="text-blue">.s.seabeek.com</view></view>
+											<view>例：xxx.com.s.seabeek.com （这只是个例子，请将<view class="text-blue">xxx.com</view>更改为你的域名，然后再加上<view class="text-blue"> .s.seabeek.com</view>）</view>
 											<view>TTL：默认</view>
 											<view>4、点击“确定”</view>
 										</view>
@@ -92,9 +92,9 @@
 									<view>
 										<view class="u-order-title">第四步：等待生效</view>
 										<view class="u-order-desc">
-											<view>好了，完成解析并保存后，就需要耐心等待解析生效（确认域名已完成实名认证）</view>
-											<view>解析域名后需要几个小时，最长48小时完全生效。若网站还未完成ICP备案，则需要等待ICP备案完成后访客才能看到网站内容</view>
-											<view>自定义域名网站点击上线后，网站可以立即发布，和上线了二级域名先审核才能发布不一样。不过带自定义域名的网站还是会被审核，请确认网站内容与备案信息一致，未完成或需要备案的网站请尽快完成备案。</view>
+											<view>好了，完成解析并保存后，就需要耐心等解析生效（确认域名已完成实名认证）。</view>
+											<view>解析域名后需要几个小时，最长48小时完全生效。若网站还未完成ICP备案，则需要等ICP备案完成后访客才能看到网站内容。</view>
+											<view>自定义域名网站点击“上线”后，网站可以立即发布，和上线了二级域名先审核才能发布不一样。不过带自定义域名的网站还是会被审核，请确认网站内容与备案信息一致，未完成或需要备案的网站请尽快完成备案。</view>
 										</view>
 									</view>
 								</template>

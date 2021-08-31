@@ -171,8 +171,9 @@
 				},
 				pricesList:[],
 				show:false,
-				area:'',
-				name:'ip1',
+				area:'', //选择地区名称
+				ip_code:'', //选择地区代码
+				name:'ip1', //新建IP名称
 				platform:[
 					{
 						name:"YouTube",
@@ -255,8 +256,8 @@
 				
 			}
 		},
-		onLoad(name) {
-			this.name = name
+		onLoad(data) {
+			this.name = data.name
 			console.log(this.name)
 			this.init()
 		},
@@ -283,6 +284,7 @@
 			actionSheetCallback(index) {
 				uni.hideKeyboard();		
 				this.area = this.pricesList[index].text
+				this.ip_code = this.pricesList[index].name
 			},
 			setStyle(value){ 
 				console.log(value)
@@ -297,7 +299,7 @@
 				this.$u.api.addIpAgent({
 					name:this.name,
 					ip_id:0,
-					area:this.area,
+					area:this.ip_code,
 					platform:JSON.stringify(this.platform)
 				}).then(res=>{
 					if(res.code == 200){

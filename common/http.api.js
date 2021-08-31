@@ -29,7 +29,7 @@ let getUserViewUrl ='/getUserView' //获取站点数据分析
 let getAllSeCategoryUrl = '/getAllSeCategory' //获取用户的全部二级
 let getVideoListUrl = '/getVideoList' //视频数据分析，根据分类id和platform 
 let getVideoDataUrl = '/getVideoData' //根据视频id和平台获取数据分析
-let setShareHistoryUrl = '/setShareHistoryUrl' //支付成功回调函数
+let setShareHistoryUrl = '/setShareHistory' //支付成功回调函数
 let cancelPayUrl = '/cancelPay'      //支付失败回调函数
 let getUserAllUrl = '/getUserAll'    //获取客户信息
 // 此处第二个参数vm，就是我们在页面使用的this，你可以通过vm获取vuex等操作，更多内容详见uView对拦截器的介绍部分：

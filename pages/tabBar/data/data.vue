@@ -286,6 +286,7 @@
 		</view>
 		<!--vimeo 榜单 end -->
 		<u-toast ref="uToast" />
+		
 	</view>
 	
 </template>
@@ -496,7 +497,7 @@
 						   let uniq_visitors = []
 						   let visits = []
 						   res.data.curve.map(function(item){
-							   self.chartData.categories.push(item.time)
+							   self.chartData.categories.push(item.Xtime)
 							   uniq_visitors.push(item.uniq_visitors)
 							   visits.push(item.visits)
 						   })
@@ -793,7 +794,7 @@
 	}
 	.swiper-box {
 		flex: 1;
-		height: 850rpx;
+		height: 870rpx;
 	}
 	.swiper-item {
 		height: 100%; 

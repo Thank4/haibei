@@ -29,7 +29,14 @@
 										</u-col>
 										<u-col span="4">
 											<view>
-												<view><u-icon name="../../../static/icon/plant_icon.png" size="30" :custom-style="{'margin-right':'19rpx'}"></u-icon>未发布</view>
+												<view v-if="item.status==1">
+													<u-icon name="../../../static/icon/plant_icon.png" size="30" :custom-style="{'margin-right':'19rpx'}"></u-icon>
+													已发布
+												</view>
+												<view v-else-if="item.status==2">
+													<u-icon name="../../../static/icon/plant_icon.png" size="30" :custom-style="{'margin-right':'19rpx'}"></u-icon>
+													未发布
+												</view>
 											</view>
 										</u-col>
 							</u-row>

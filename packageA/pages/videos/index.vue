@@ -76,8 +76,17 @@
 		<view class="tab-content" v-if="VideoList.length>0">
 			<view class="item" v-for="item in VideoList">
 				<view class="cover-img">
-					<u-image width="100%" height="361rpx" :src="item.preview"></u-image>
-					
+					<!-- <u-image width="100%" height="361rpx" :src="item.preview"></u-image> -->
+					 <video  class="viedoBox"
+					      id="myVideo" 
+					      :src="item.url" 
+					      binderror="videoErrorCallback" 
+					      controls
+						  show-mute-btn
+						  page-gesture
+					      bindenterpictureinpicture='bindVideoEnterPictureInPicture'
+					      bindleavepictureinpicture='bindVideoLeavePictureInPicture'
+					    ></video>
 				</view>
 				<view class="item-title">
 					{{item.name}}
@@ -242,7 +251,6 @@
 			},
 			//上传本地视频
 			uploadVideo(){
-				console.log('上传本地视频')
 				this.$u.route({
 					url:'/packageB/pages/distribution/entry'
 				})
@@ -291,5 +299,9 @@
 	}
 	.btnGroup{
 		margin-top: 86rpx;
+	}
+	.viedoBox{
+		width:100%; 
+		height:361rpx; 
 	}
 </style>

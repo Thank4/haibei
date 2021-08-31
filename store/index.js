@@ -36,7 +36,7 @@ const store = new Vuex.Store({
 		vuex_token: lifeData.vuex_token ? lifeData.vuex_token : '',
 		vuex_openId: lifeData.vuex_openId ? lifeData.vuex_openId : '',
 		// 如果vuex_version无需保存到本地永久存储，无需lifeData.vuex_version方式
-		vuex_version: '1.0.1',
+		vuex_version: '1.0.0',
 		vuex_pc_link:'https://web.seabeek.cn/',
 		vuex_hasLogin:lifeData.vuex_hasLogin ? lifeData.vuex_hasLogin : false,
 	},
