@@ -7,9 +7,8 @@
 				     id="myVideo" 
 				     :src="item.url" 
 					 binderror="videoErrorCallback" 
-					  controls
-					  show-mute-btn
-					  page-gesture
+					 controls
+					 show-mute-btn
 				     bindenterpictureinpicture='bindVideoEnterPictureInPicture'
 				     bindleavepictureinpicture='bindVideoLeavePictureInPicture'
 				   ></video>

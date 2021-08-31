@@ -368,6 +368,7 @@
 				opts1:{
 					"xAxis": {
 						"boundaryGap": "center",
+						 "rotateLabel": true,
 					}
 				},
 				opts2:{
@@ -385,6 +386,10 @@
 				opts4:{
 					"dataLabel": false,
 					"dataPointShapeType": "hollow",
+					"xAxis": {
+						"boundaryGap": "center",
+						 "rotateLabel": true,
+					},
 					 yAxis:{
 						 data:[{position: 'left',title: ''},
 								{position: 'right',title: '',textAlign: 'left'}]
@@ -659,96 +664,20 @@
 					file_id: this.file_id,
 					platform:this.platform
 				}).then(res =>{
+					console.log(res)
 					if(res.code ==200){
 						//TODO 
-						//let temp = res.data
-						let temp = [
-							{
-								"id": 1,
-								"category_id": 18,
-								"watch": 7346,
-								"like": 4216,
-								"forward": 65421,
-								"file_id": 95,
-								"platform": "YouTube",
-								"merchant_id": 1,
-								"date": "2021-08-23",
-								"created_at": null,
-								"updated_at": null
-							},
-							{
-								"id": 1,
-								"category_id": 18,
-								"watch": 8346,
-								"like": 5336,
-								"forward": 65421,
-								"file_id": 95,
-								"platform": "YouTube",
-								"merchant_id": 1,
-								"date": "2021-08-24",
-								"created_at": null,
-								"updated_at": null
-							},
-							{
-								"id": 1,
-								"category_id": 18,
-								"watch": 12346,
-								"like": 3216,
-								"forward": 65421,
-								"file_id": 95,
-								"platform": "YouTube",
-								"merchant_id": 1,
-								"date": "2021-08-25",
-								"created_at": null,
-								"updated_at": null
-							},
-							{
-								"id": 1,
-								"category_id": 18,
-								"watch": 12346,
-								"like": 5416,
-								"forward": 65421,
-								"file_id": 95,
-								"platform": "YouTube",
-								"merchant_id": 1,
-								"date": "2021-08-26",
-								"created_at": null,
-								"updated_at": null
-							},
-							{
-								"id": 1,
-								"category_id": 18,
-								"watch": 9546,
-								"like": 3216,
-								"forward": 65421,
-								"file_id": 95,
-								"platform": "YouTube",
-								"merchant_id": 1,
-								"date": "2021-08-27",
-								"created_at": null,
-								"updated_at": null
-							},
-							{
-								"id": 1,
-								"category_id": 18,
-								"watch": 8346,
-								"like": 4216,
-								"forward": 65421,
-								"file_id": 95,
-								"platform": "YouTube",
-								"merchant_id": 1,
-								"date": "2021-08-28",
-								"created_at": null,
-								"updated_at": null
-							},
-							
-						]
-						temp.map(function(item){
-							self.otherData.categories.push(item.date)
-							self.otherData.series[0].data.push(item.like)
-							self.otherData.series[1].data.push(item.watch)
-							console.log(item)
-						})
+						if(res.data.data.length>0){
+							console.log(res.data)
+							res.data.data.map(function(item){
+								self.otherData.categories.push(item.date)
+								self.otherData.series[0].data.push(item.like)
+								self.otherData.series[1].data.push(item.watch)
+								console.log(item)
+							})
+						}
+						
+						
 					}
 				})
 			},

@@ -8,82 +8,87 @@
 		<u-row gutter="16">
 			<u-col span="10">
 				<view class="tab">
-					<u-tabs :list="list" :is-scroll="true" :current="current" @change="change">
-					</u-tabs>
+				
+					<u-tabs-swiper ref="tabs" :list="list" bg-color="#fff"  active-color="#3377FF" :current="current" @change="change" :is-scroll="false" swiperWidth="750">
+						
+					</u-tabs-swiper>
 				</view>
 			</u-col>
 			<u-col span="2">
 					<u-icon name="plus-circle" size="50rpx" :customStyle="{'margin-top':'18rpx'}" @click="uploadVideo"></u-icon>  <!-- old @click="showTab" -->
 			</u-col>
 		</u-row>
-		<u-popup v-model="show" mode="top">
-			<view class="slot-content">
-					<view class="labelTitle">一级分类</view>
-					<u-row gutter="16">
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle2">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-					</u-row>
-					<view class="labelTitle">二级分类</view>
-					<u-row gutter="16">
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle2">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-								<u-col span="4">
-									<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
-								</u-col>
-					</u-row>
-			</view>
-			<!-- 按钮组合-->
-			<view class="btnGroup">
-			<u-row>
-				<u-col span="6">
-					<u-button type="primary" block hover-class="none" :custom-style="resetBtn" @click="reset">重置</u-button>
-				</u-col>
-				<u-col span="6">
-					<u-button type="primary" block hover-class="none" :custom-style="confirmBtn" @click="confirm">确定</u-button>
-				</u-col>
-			</u-row>
-			</view>
-		</u-popup>
-		<view class="tab-content" v-if="VideoList.length>0">
+		
+		<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+			
+			<swiper-item class="swiper-item" v-for="item in list">
+				<scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="reachBottom">
+					<!-- 网站数据 begin -->
+					<view class="page-box">
+						
+						<view class="item" v-for="item in VideoList">
+							<view class="cover-img">
+								<!-- <u-image width="100%" height="361rpx" :src="item.preview"></u-image> -->
+								 <video  class="viedoBox"
+								      id="myVideo" 
+								      :src="item.url" 
+								      binderror="videoErrorCallback" 
+								      controls
+									  show-mute-btn
+								      bindenterpictureinpicture='bindVideoEnterPictureInPicture'
+								      bindleavepictureinpicture='bindVideoLeavePictureInPicture'
+								    ></video>
+							</view>
+							<view class="item-title">
+								{{item.name}}
+							</view>
+							<view class="coment">
+								<u-row gutter="16">
+											<u-col span="9">
+												<view class="num">
+													<u-icon name="../../../static/icon/read_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
+													{{item.play ? item.play:0}}
+													</view>
+											</u-col>
+											<!-- <u-col span="3">
+												<view>
+													<u-icon name="../../../static/icon/pl_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31">0</u-icon>
+												</view>
+											</u-col> -->
+											<u-col span="3">
+												<view class="num">
+													<u-icon name="../../../static/icon/dz_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
+													{{item.likes ? item.likes : 0 }}</view>
+											</u-col>
+										</u-row>
+							</view>
+						</view>
+						
+						<view v-if="isEmpty">
+							<u-empty  
+							margin-top="300"
+							icon-size="400rpx"
+							text="该分类下没有视频"  
+							src="../../../static/icon/emptyVideo_icon.png">
+							<u-button slot="bottom" type="primary" size="mini" @click="uploadVideo()">上传视频</u-button>
+							</u-empty>
+						</view>
+					</view>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
+	
+			
+		<!-- <view class="tab-content" v-if="VideoList.length>0">
 			<view class="item" v-for="item in VideoList">
 				<view class="cover-img">
 					<!-- <u-image width="100%" height="361rpx" :src="item.preview"></u-image> -->
-					 <video  class="viedoBox"
+				<!-- 	 <video  class="viedoBox"
 					      id="myVideo" 
 					      :src="item.url" 
 					      binderror="videoErrorCallback" 
 					      controls
 						  show-mute-btn
-						  page-gesture
 					      bindenterpictureinpicture='bindVideoEnterPictureInPicture'
 					      bindleavepictureinpicture='bindVideoLeavePictureInPicture'
 					    ></video>
@@ -104,7 +109,7 @@
 										<u-icon name="../../../static/icon/pl_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31">0</u-icon>
 									</view>
 								</u-col> -->
-								<u-col span="3">
+						<!-- 		<u-col span="3">
 									<view class="num">
 										<u-icon name="../../../static/icon/dz_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
 										{{item.likes ? item.like : 0 }}</view>
@@ -123,7 +128,66 @@
 			src="../../../static/icon/emptyVideo_icon.png">
 			<u-button slot="bottom" type="primary" size="mini" @click="uploadVideo()">上传视频</u-button>
 			</u-empty>
-		</view>
+		</view> -->
+		
+		 <!-- 原一二级分类 begin -->
+		 <u-popup v-model="show" mode="top">
+		 	<view class="slot-content">
+		 			<view class="labelTitle">一级分类</view>
+		 			<u-row gutter="16">
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle2">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 			</u-row>
+		 			<view class="labelTitle">二级分类</view>
+		 			<u-row gutter="16">
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle2">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 						<u-col span="4">
+		 							<u-button type="primary" hover-class="none" shape="circle" :custom-style="btnStyle">默认按钮</u-button>
+		 						</u-col>
+		 			</u-row>
+		 	</view>
+			<view class="btnGroup">
+				<u-row>
+					<u-col span="6">
+						<u-button type="primary" block hover-class="none" :custom-style="resetBtn" @click="reset">重置</u-button>
+					</u-col>
+					<u-col span="6">
+						<u-button type="primary" block hover-class="none" :custom-style="confirmBtn" @click="confirm">确定</u-button>
+					</u-col>
+				</u-row>
+				</view>
+			</u-popup>
+		 	<!-- 原一二级分类 end-->
 	</view>
 </template>
 
@@ -171,8 +235,10 @@
 					current: 0,
 					show:false,
 					currentPage:1,
-					pageSize:3,
-					status:'loadmore'
+					pageSize:10,
+					status:'loadmore',
+					swiperCurrent:0,
+					isEmpty:false
 	
 
 			}
@@ -207,6 +273,9 @@
 				this.getVideoList(this.parent_id,this.category_id,this.currentPage,this.pageSize)
 			},
 			getVideoList(parent_id,category_id,page,limit){
+				
+				uni.showLoading({title: '加载中'})
+				this.VideoList = []
                 this.$u.api.getVideosAll({
                 	parent_id:parent_id,
                 	category_id:category_id,
@@ -215,11 +284,17 @@
                 }).then(res=>{
                 	if(res.code == 200){
                 		if(res.data.length>0){
-							this.VideoList = this.VideoList.concat(res.data)
+							this.VideoList = res.data
 							res.current_page >= res.last_page ? this.status = 'nomore':'loadmore'
+							this.isEmpty = false
+							uni.hideLoading();
 						}else{
 							this.status = 'nomore'
+							this.isEmpty = true
+							uni.hideLoading();
 						}
+						
+						
                 		
                 	}
                 	console.log(res)
@@ -254,7 +329,18 @@
 				this.$u.route({
 					url:'/packageB/pages/distribution/entry'
 				})
-			}
+			},
+			transition({ detail: { dx } }) {
+				this.$refs.tabs.setDx(dx);
+			},
+			animationfinish({ detail: { current } }) {
+				this.isEmpty = false
+				this.$refs.tabs.setFinishCurrent(current);
+				this.swiperCurrent = current;
+				this.current = current
+				this.parent_id = this.list[current]['id']
+				this.getVideoList(this.parent_id,this.category_id,this.currentPage,this.pageSize)
+			},
 
 		}
 	}
@@ -267,6 +353,18 @@
 	.tab{
 		margin-left: 30rpx;
 		width: 600rpx;
+	}
+	.wrap {
+		display: flex;
+		flex-direction: column;
+		height: calc(100vh - var(--window-top));
+		width: 100%;
+	}
+	.swiper-box {
+		flex: 1;
+	}
+	.swiper-item {
+		height: 100%;
 	}
 	.dropdown{}
 	.tab-content{
