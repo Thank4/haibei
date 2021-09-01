@@ -1,5 +1,11 @@
 <template>
 	<view>
+		<view class="labelTitle">
+		      <text lines="1" class="info1">选择IP地址</text>
+		</view>
+		<u-cell-group :border="false">
+				<u-cell-item title="地址" :value="area" :border-bottom="false" hover-class @click="show = true"></u-cell-item>
+		</u-cell-group>
 		<view class="labelTitle">选择要发布的平台</view>
 		<view class="list">
 		<u-collapse :item-style="itemStyle" @change="setStyle">
@@ -789,16 +795,12 @@
 			<!--  Veoh end -->
 		</u-collapse>
 	    </view>
-		<view class="ipTitle">选择IP地址</view>
-		<view class="choose">
-			<u-cell-group>
-					<u-cell-item title="地址" :value="area"></u-cell-item>
-			</u-cell-group>
+		<view class="submit">
+			<u-button type="primary" shape="circle" @click="updateIp">确定</u-button>
 		</view>
-		<!-- <view class="submit">
-			<u-button type="primary" shape="circle" disabled>确定</u-button>
-		</view> -->
-			<u-toast ref="uToast" />
+		
+		<u-action-sheet :list="pricesList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -822,41 +824,49 @@
 				index:0,
 				platform:[
 					{
+						id:0,
 						name:"YouTube",
 						account:'',
 						password:''
 					},
 					{
+						id:0,
 						name:"facebook",
 						account:'',
 						password:''
 					},
 					{
+						id:0,
 						name:"Twitter",
 						account:'',
 						password:''
 					},
 					{
+						id:0,
 						name:"pinterest",
 						account:'',
 						password:''
 					},
 					{
+						id:0,
 						name:"linkedin",
 						account:'',
 						password:''
 					},
 					{
+						id:0,
 						name:"vimeo",
 						account:'',
 						password:''
 					},
 					{
+						id:0,
 						name:"tiktok",
 						account:'',
 						password:''
 					},
 					{
+						id:0,
 						name:"veoh",
 						account:'',
 						password:''
@@ -866,6 +876,8 @@
 				status:'',
 				ip_id:'',
 				price:'',
+				pricesList:[], //地区及价格列表
+				show:false,
 				
 			}
 		},
@@ -878,18 +890,39 @@
 				this.$u.api.getIpAgentList().then(res => {
 					console.log(res)
 					if(res.code == 200){
+						
+						
 						console.log(res.data.ip_agent[this.index])
 						this.area = res.data.ip_agent[this.index]['area']
 						this.status = res.data.ip_agent[this.index]['status']
+						console.log('这个ip的状态'+this.status)
 						this.ip_id = res.data.ip_agent[this.index]['id']
 						this.price = res.data.ip_agent[this.index]['price']
+						
+						let self = this
+						for(let i in res.data.ip_arr){
+							console.log(this.area+'aaaaaaaaaaaaaaaa')
+							if(res.data.ip_arr[i]['area'] == self.area){
+								self.ip_code = res.data.ip_arr[i]['name']
+							}
+							self.pricesList.push({
+								name:res.data.ip_arr[i]['name'],
+								price:res.data.ip_arr[i]['price'],
+								area:res.data.ip_arr[i]['area'],
+								text:res.data.ip_arr[i]['area'],
+								subText:res.data.ip_arr[i]['price'],
+							})
+							
+						}
+						
+						
 						for(let i in res.data.ip_agent[this.index]['platform']){
 							//console.log(res.data.ip_agent[this.index]['platform'][i])
 							let self = this
 							this.platform.map(function(item,index){
-								console.log(item)
-								console.log(res.data.ip_agent[self.index]['platform'][i])
 								if(item.name == res.data.ip_agent[self.index]['platform'][i]['name']){
+									console.log(res.data.ip_agent[self.index]['platform'][i]['id'])
+									self.platform[index]['id'] = res.data.ip_agent[self.index]['platform'][i]['id'];
 									self.platform[index]['account'] = res.data.ip_agent[self.index]['platform'][i]['account'];
 									self.platform[index]['status'] = res.data.ip_agent[self.index]['platform'][i]['status'];
 								}
@@ -898,6 +931,12 @@
 					
 					}
 				})
+			},
+			actionSheetCallback(index) {	
+				this.area = this.pricesList[index].text
+				this.ip_code = this.pricesList[index].name
+				console.log(this.area)
+				console.log(this.ip_code)
 			},
 			editAccount(account,name){
 				let self = this
@@ -918,17 +957,64 @@
 			},
 			setStyle(value){ 
 				console.log(value)
+			},
+			updateIp(){
+				console.log('修改')
+				if(!this.area){
+					this.$refs.uToast.show({
+						title: '请选择区域',
+					})
+					return
+				}
+				console.log(this.platform)
+				this.$u.api.upIpAgent({
+					ip_id:this.ip_id,
+					area:this.ip_code,
+					platform:JSON.stringify(this.platform)
+				}).then(res =>{
+					if(res.code == 200){
+						this.$refs.uToast.show({
+							title: res.message,
+							position:'top',
+							back:true
+						})	
+					}
+				})
+			
+				
 			}
 		}
 	}
 </script>
 
-<style scoped>
-	.labelTitle{
-		margin:50rpx 0 0 51rpx;
-		font-size: 28rpx;
-		color: #393C4C;
+<style>
+	page{
+		
 	}
+</style>
+<style scoped>
+	.labelTitle {
+	  height: 64rpx;
+	  width: 750rpx;
+	  justify-content: flex-end;
+	  align-items: flex-start;
+	  display: flex;
+	  flex-direction: column;
+	  padding: 0 0 8rpx 32rpx;
+	}
+	.info1 {
+	  z-index: 53;
+	  width: 138rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(187,187,187,1);
+	  font-size: 28rpx;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 40rpx;
+	  text-align: left;
+	}
+
 	.list{
 		margin: 33rpx 46rpx 0 45rpx;
 		background: rgb(246,246,248);

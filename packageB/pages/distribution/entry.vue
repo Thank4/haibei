@@ -1,44 +1,51 @@
 <template>
 	<view class="wrap">
-		<u-form label-width="180rpx" label-position="top">
-		<u-form-item label="视频信息">
-		<u-input v-model="name" placeholder="输入视频标题"></u-input>
-		</u-form-item>
-		<u-form-item label="视频封面图">
-		<u-cell-group>
-			<u-upload :custom-btn="true" :action="action" :header="{'Access-Token':vuex_token}" max-count="1" @on-success="uploadSuccess">
-			<u-cell-item  slot="addBtn" icon="../../../static/img/upload_icon.png" title="上传封面图" :arrow="false"></u-cell-item>
-			</u-upload>
-		</u-cell-group>
-		</u-form-item>
 		
-		<u-form-item label="视频描述及视频上传">
-		<u-row gutter="16">
-					<u-col span="9">
-						<view>
-							<u-input v-model="desc" height="200" type="textarea" :clearable="false" placeholder="输入视频描述(....字内)" />
-						</view>
-					</u-col>
-					<u-col span="3">
-						<view v-if="isupload">
-							<u-image width="126rpx" height="126rpx" src="../../../static/icon/isupload.png" @click="upload"></u-image>
-						</view>
-						<view v-else>
-							<u-image width="126rpx" height="126rpx" src="../../../static/icon/upload.png" @click="upload"></u-image>
-						</view>
-					</u-col>
-		</u-row>
-		</u-form-item>
+		<template v-if="isupload">
+		<view class="upload">
+		<video class="viedoBox" :src="url"></video>
+			<view class="bd7" @click="uploadPreview()">
+		        <text lines="1" class="word3">上传封面图</text>
+		      </view>
+		</view>	  
+		</template>
+		
+	    <view class="upload"  v-else  @click="upload()">
+		  <view class="main2">
+		    <image src="../../../static/icon/upload_icon.png" class="img1"></image>
+		    <text lines="1" class="info1">点击上传</text>
+		  </view>
+	    </view>
+		
+		<view class="title">
+		<u-form :model="model" :rules="rules" ref="uForm" :errorType="errorType">
+			<u-form-item>
+				<u-input type="textarea" v-model="name" :border="border" placeholder="请输入标题" />
+			</u-form-item>
 		</u-form>
-		<view class="labelTitle">选择站点</view>
+		</view>
+		
+	    <view class="desc">
+	      <view class="bd2">
+	        <text lines="1" class="info3">视频简介</text>
+	        <text lines="1" class="txt1">简介内容可以展示你视频的详细信息</text>
+	        <view class="main3">
+	          <u-form :rules="rules" ref="uForm" :errorType="errorType">
+	          	<u-form-item>
+	          		<u-input type="textarea"  v-model="desc" :border="border" placeholder="请填写简介" />
+	          	</u-form-item>
+	          </u-form>
+	        </view>
+	      </view>
+	    </view>
+		<view class="site">
 		<view>
-			<u-form label-width="180rpx">
-			<u-form-item label="选择站点">
+			<u-form label-width="200rpx">
+			<u-form-item label="选择站点(必填)">
 				<u-input v-model="site_name" input-align="right" type="select" :select-open="actionSheetShow3" placeholder="选择站点" @click="showSites = true"></u-input>
 			</u-form-item>
 			</u-form>
 		</view>
-		<view class="labelTitle">选择视频分类</view>
 		<view>
 			<u-form label-width="180rpx">
 			<u-form-item label="选择一级分类">
@@ -49,15 +56,19 @@
 			</u-form-item>
 			</u-form>
 		</view>
-		<view class="submit">
-			<u-button type="primary" shape="circle" @click="submit">确定</u-button>
+	    
 		</view>
+		<view class="submit">
+			<u-button type="primary" shape="circle" @click="submit">保存</u-button>
+		</view>
+		
 		<u-action-sheet :list="list1" v-model="show1" @click="actionSheetCallback1"></u-action-sheet>
 		<u-action-sheet :list="list2" v-model="show2" @click="actionSheetCallback2"></u-action-sheet>
 		<u-action-sheet :list="list3" v-model="showSites" @click="actionSheetCallback3"></u-action-sheet>
 		<u-toast ref="uToast" />
-	
-	</view>
+		
+	  </view>
+
 </template>
 
 <script>
@@ -86,7 +97,8 @@
 				list3:[],
 				AllCategory:[],
 				isupload:false,
-				showSites:false
+				showSites:false,
+				form:{}
 			}
 		},
 		onLoad(){
@@ -122,7 +134,6 @@
 			},
 			upload(){
 				console.log('上传视频')
-				
 				let self = this
 				uni.chooseVideo({
 					count: 1,
@@ -164,6 +175,36 @@
 					}
 				});
 			},
+			uploadPreview(){
+				let self = this
+				uni.chooseImage({
+				    count: 6, //默认9
+				    sizeType: ['original'], //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (chooseImageRes) {
+						  const tempFilePaths = chooseImageRes.tempFilePaths[0];
+						        uni.uploadFile({
+						            url: 'https://wechat.seabeek.cn/weapp/upFiles', //仅为示例，非真实的接口地址
+						            filePath: tempFilePaths,
+						            name: 'file',
+						            header:{
+						            	'Access-Token':self.vuex_token
+						            },
+						            formData: {
+						                'type': 'img'
+						            },
+						            success: (res) => {
+						                let jsonr = JSON.parse(res.data)
+						                self.preview = jsonr.data.res.path
+						                self.$refs.uToast.show({
+						                	position:'top',
+						                	title:'封面图上传成功',
+						                })
+						            }
+						        });
+				    }
+				});
+			},
 			uploadSuccess(){
 				if(res.code == 200){
 					this.preview = res.data.res.path
@@ -181,6 +222,7 @@
 				this.parent_id = this.list1[index]['category_id']
 				this.parent_text = this.list1[index]['text']
 				//清除，原来二级分类的值，给list2赋值
+				console.log('清空一级分类')
 				this.category_id = ''
 				this.category_text = ''
 				this.list2 = []
@@ -271,7 +313,8 @@
 					if(res.code == 200){
 						self.$refs.uToast.show({
 							position:'top',
-							title:'保存成功'
+							title:'保存成功',
+							back :true
 						})
 					}
 				})
@@ -282,17 +325,256 @@
 </script>
 
 <style scoped>
-	.wrap{
-		margin: 50rpx 49rpx 0 49rpx;
+	.wrap {
+	  background: #F8F8F8;
+	  display: flex;
+	  flex-direction: column;
 	}
-	.submit{
-		margin: 152rpx 48rpx 0 48rpx;
-	}
-	.warp{
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
+	.info1 {
+	  z-index: 44;
+	  width: 116rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(255,255,255,1);
+	  font-size: 28rpx;
+	  letter-spacing: 1rpx;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 40rpx;
+	  text-align: center;
+	  margin-top: 12rpx;
 	}
 	
+	.upload {
+	  z-index: 43;
+	  height: 386rpx;
+	  border-radius: 16rpx;
+	  background-color: rgba(221,221,221,1);
+	  align-self: center;
+	  margin-top: 20rpx;
+	  width: 686rpx;
+	  justify-content: flex-end;
+	
+	  align-items: center;
+	  display: flex;
+	  flex-direction: column;
+	}
+	.viedoBox{
+	  position: absolute;
+	  height: 386rpx;
+	  width: 686rpx;
+	  align-items: center;
+	  display: flex;
+	  border-radius: 16rpx;
+	}
+	
+	.bd7 {
+	  z-index: 46;
+	  height: 24px;
+	  border-radius: 12px;
+	  background-color: rgba(0, 0, 0, 0.5);
+	  width: 76px;
+	  justify-content: center;
+	  align-items: center;
+	}
+	.word3 {
+	  z-index: 47;
+	  width: 58px;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(204, 204, 204, 1);
+	  font-size: 14px;
+	  letter-spacing: 0.2800000011920929px;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 20px;
+	  text-align: center;
+	}
+	.bd7 {
+	  z-index: 46;
+	  height: 24px;
+	  border-radius: 12px;
+	  background-color: rgba(0, 0, 0, 0.5);
+	  width: 76px;
+	  justify-content: center;
+	  align-items: center;
+	}
+	.word3 {
+	  z-index: 47;
+	  width: 58px;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(204, 204, 204, 1);
+	  font-size: 14px;
+	  letter-spacing: 0.2800000011920929px;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 20px;
+	  text-align: center;
+	}
+	.bd7 {
+	  z-index: 46;
+	  height: 48rpx;
+	  border-radius: 24rpx;
+	  background-color: rgba(0,0,0,0.5);
+	  width: 152rpx;
+	  justify-content: center;
+	  align-items: center;
+	  display: flex;
+	  flex-direction: column;
+	}
+	.word3 {
+	  z-index: 47;
+	  width: 116rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(204,204,204,1);
+	  font-size: 28rpx;
+	  letter-spacing: 1rpx;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 40rpx;
+	  text-align: center;
+	}
+	.bd7 {
+	  z-index: 46;
+	  height: 48rpx;
+	  border-radius: 24rpx;
+	  background-color: rgba(0,0,0,0.5);
+	  width: 152rpx;
+	  justify-content: right;
+	  align-items: center;
+	  display: flex;
+	  flex-direction: column;
+	}
+	.word3 {
+	  z-index: 47;
+	  width: 116rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(204,204,204,1);
+	  font-size: 28rpx;
+	  letter-spacing: 1rpx;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 40rpx;
+	  text-align: center;
+	}
+	.title{
+		height: 172rpx;
+		border-radius: 16rpx;
+		background-color: rgba(255,255,255,1);
+		align-self: center;
+		margin-top: 20rpx;
+		width: 686rpx;
+		padding: 16rpx 0 0 22rpx;
+	}
+	.main2 {
+	  width: 120rpx;
+	  display: flex;
+	  flex-direction: column;
+	  padding-bottom: 108rpx;
+	}
+	.img1 {
+	  z-index: 45;
+	  width: 120rpx;
+	  height: 92rpx;
+	}
+	.info1 {
+	  width: 116rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(255,255,255,1);
+	  font-size: 28rpx;
+	  letter-spacing: 1rpx;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 40rpx;
+	  text-align: center;
+	  margin-top: 12rpx;
+	}
+	.info2 {
+	  width: 258rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(204,204,204,1);
+	  font-size: 28rpx;
+	  letter-spacing: 1rpx;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 40rpx;
+	  text-align: center;
+	}
+	.desc{
+		z-index: 53;
+		height: 300rpx;
+		border-radius: 16rpx;
+		background-color: rgba(255,255,255,1);
+		align-self: center;
+		margin-top: 20rpx;
+		width: 686rpx;
+		justify-content: center;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+	}
+	.bd2 {
+	  z-index: auto;
+	  width: 644rpx;
+	  height: 264rpx;
+	  display: flex;
+	  flex-direction: column;
+	}
+	.info3 {
+	  z-index: 54;
+	  width: 116rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(51,51,51,1);
+	  font-size: 28rpx;
+	  letter-spacing: 1rpx;
+	  font-family: PingFangSC-Medium;
+	  white-space: nowrap;
+	  line-height: 40rpx;
+	  text-align: left;
+	  align-self: flex-start;
+	}
+	.txt1 {
+	  width: 392rpx;
+	  display: block;
+	  overflow-wrap: break-word;
+	  color: rgba(153,153,153,1);
+	  font-size: 24rpx;
+	  letter-spacing: 0rpx;
+	  font-family: PingFangSC-Regular;
+	  white-space: nowrap;
+	  line-height: 34rpx;
+	  text-align: left;
+	  align-self: flex-start;
+	  margin-top: 16rpx;
+	}
+	.main3 {
+	  z-index: 56;
+	  height: 158rpx;
+	  border-radius: 8rpx;
+	  background-color: rgba(248,248,248,1);
+	  margin-top: 16rpx;
+	  width: 644rpx;
+	  padding: 10rpx 0 0 20rpx;
+	}
+
+	.site{
+		border-radius: 16rpx;
+		background-color: rgba(255,255,255,1);
+		align-self: center;
+		margin-top: 20rpx;
+		width: 686rpx;
+		justify-content: center;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+	}
+	.submit{
+		margin: 48rpx 48rpx 0 48rpx;
+	}
 </style>

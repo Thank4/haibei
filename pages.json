@@ -273,7 +273,7 @@
         "list" : [
             { 
                 "name" : "", //模式名称 
-               // "path" : "packageB/pages/distribution/entry", //启动页面，必选
+                //"path" : "packageB/pages/distribution/editip", //启动页面，必选
 			   "path" : "pages/tabBar/staticon/staticon",
                "query" : "" //启动参数，在页面的onLoad函数里面得到
             }

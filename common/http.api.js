@@ -18,6 +18,7 @@ let getSitesUrl = '/getSites' //获取全部站点
 let domainInfoUrl = '/domainInfo' //绑定域名
 let getIpAgentListUrl = '/getIpAgentList' //获取ip列表及ip下的平台
 let addIpAgentUrl = '/addIpAgent' //新增ip
+let upIpAgentUrl = '/upIpAgent' //修改ip
 let addIpAgentOneUrl = '/addIpAgentOne' //新增单个平台下的账号
 let codeUrl = '/code'  //通过微信登录获取openID
 let updateFileUrl = '/updateFile' //保存上传视频
@@ -67,6 +68,8 @@ const install = (Vue, vm) => {
 	let getIpAgentList = (params = {}) =>vm.$u.get(getIpAgentListUrl,params) 
 	//新增ip
 	let addIpAgent = (params = {}) =>vm.$u.post(addIpAgentUrl,params) 
+	//修改ip
+	let upIpAgent = (params = {}) =>vm.$u.post(upIpAgentUrl,params) 
 	//新增单个平台下的账号
 	let addIpAgentOne = (params = {}) =>vm.$u.post(addIpAgentOneUrl,params) 
 	//通过微信登录获取openID
@@ -115,6 +118,7 @@ const install = (Vue, vm) => {
 		bindDomain,
 		getIpAgentList,
 		addIpAgent,
+		upIpAgent,
 		addIpAgentOne,
 		getOpenId,
 		updateFile,
