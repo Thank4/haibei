@@ -1,806 +1,268 @@
 <template>
 	<view>
-		<view class="labelTitle">
-		      <text lines="1" class="info1">选择IP地址</text>
-		</view>
-		<u-cell-group :border="false">
-				<u-cell-item title="地址" :value="area" :border-bottom="false" hover-class @click="show = true"></u-cell-item>
-		</u-cell-group>
-		<view class="labelTitle">选择要发布的平台</view>
+		
+		<view class="labelTitle">选择IP地址</view>
+		<template v-if="status == 4">
+			<view class="choose">
+				<u-cell-item bg-color="#FFF" title="地址" :title-style="{'margin-left':'30rpx'}" :value="area" @click="show = true">
+				</u-cell-item>
+			</view>
+		</template>
+		<template v-else>
+			<view class="choose">
+				<u-cell-item bg-color="#FFF" title="地址" :title-style="{'margin-left':'30rpx'}" :value="area" >
+				</u-cell-item>
+			</view>
+		</template>
+		
+		
+		<view class="labelTitle">选择绑定平台</view>
 		<view class="list">
-		<u-collapse :item-style="itemStyle" @change="setStyle">
-			<!--  Youtube begin-->
-			<template v-if="platform[0].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Youtube</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[0].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[0].account,'Youtube')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-if="platform.YouTube.status == 1">
+				<u-cell-item bg-color="#FFF" title="YouTube"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-else-if="platform[0].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Youtube</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[0].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[0].account,'Youtube')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.YouTube.status == 2">
+				<u-cell-item bg-color="#FFF" title="YouTube"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[0].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Youtube</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[0].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[0].account,'Youtube')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.YouTube.status == 3">
+				<u-cell-item bg-color="#FFF" title="YouTube"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[0].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Youtube</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[0].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.YouTube.status == 4">
+				<u-cell-item bg-color="#FFF" title="YouTube"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[0].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Youtube</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[0].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
+			<template v-else>
+				<u-cell-item bg-color="#FFF" title="YouTube"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
 			
 			
-			<!--  Youtube end-->
+			<template v-if="platform.facebook.status == 1">
+				<u-cell-item bg-color="#FFF" title="facebook"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
+					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.facebook.status == 2">
+				<u-cell-item bg-color="#FFF" title="facebook"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
+					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.facebook.status == 3">
+				<u-cell-item bg-color="#FFF" title="facebook"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
+					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.facebook.status == 4">
+				<u-cell-item bg-color="#FFF" title="facebook"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
+					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else>
+				<u-cell-item bg-color="#FFF" title="facebook"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
+					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
 			
-			<!--  facebook begin -->
-			<template v-if="platform[1].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> facebook</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[1].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[1].account,'facebook')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-if="platform.Twitter.status == 1">
+				<u-cell-item bg-color="#FFF" title="Twitter"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-else-if="platform[1].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> facebook</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[1].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[1].account,'facebook')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.Twitter.status == 2">
+				<u-cell-item bg-color="#FFF" title="Twitter"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[1].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> facebook</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[1].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[1].account,'facebook')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.Twitter.status == 3">
+				<u-cell-item bg-color="#FFF" title="Twitter"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[1].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> facebook</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[1].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.Twitter.status == 4">
+				<u-cell-item bg-color="#FFF" title="Twitter"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[1].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> facebook</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[1].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>		
-			<!--  facebook end -->
+			<template v-else>
+				<u-cell-item bg-color="#FFF" title="Twitter"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
 			
-			<!--  Twitter begin -->
+			<template v-if="platform.pinterest.status == 1">
+				<u-cell-item bg-color="#FFF" title="pinterest"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.pinterest.status == 2">
+				<u-cell-item bg-color="#FFF" title="pinterest"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.pinterest.status == 3">
+				<u-cell-item bg-color="#FFF" title="Twitter"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.pinterest.status == 4">
+				<u-cell-item bg-color="#FFF" title="pinterest"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else>
+				<u-cell-item bg-color="#FFF" title="pinterest"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
 			
-			<template v-if="platform[2].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> twitter</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[2].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[2].account,'twitter')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-if="platform.linkedin.status == 1">
+				<u-cell-item bg-color="#FFF" title="linkedin"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
+					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-else-if="platform[2].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> twitter</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[2].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[2].account,'twitter')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.linkedin.status == 2">
+				<u-cell-item bg-color="#FFF" title="linkedin"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
+					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[2].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> twitter</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[2].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[2].account,'twitter')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.linkedin.status == 3">
+				<u-cell-item bg-color="#FFF" title="linkedin"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
+					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[2].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> twitter</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[2].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
+			<template v-else-if="platform.linkedin.status == 4">
+				<u-cell-item bg-color="#FFF" title="linkedin"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
+					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-if="platform[2].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> twitter</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[2].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>	
-			
-			<!--  Twitter end -->
-			
-			<!--  Pinterst begin -->
-			<template v-if="platform[3].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> pinterest</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[3].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[3].account,'pinterest')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
+			<template v-else>
+				<u-cell-item bg-color="#FFF" title="linkedin"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
+					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+				</u-cell-item>
 			</template>
-			<template v-else-if="platform[3].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> pinterest</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[3].account" placeholder="请输入账号" height="100" />
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[3].account,'pinterest')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[3].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> pinterest</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[3].account" placeholder="请输入账号" height="100" disabled="true"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[3].account,'pinterest')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[3].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> pinterest</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[3].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[3].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> pinterest</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[3].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>	
-			
-			</u-collapse-item>
-			<!--  Pinterst end -->
-			
-			<!--  Linkedin begin -->
-			<template v-if="platform[4].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> linkedin</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[4].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[4].account,'linkedin')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-else-if="platform[4].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> linkedin</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[4].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[4].account,'linkedin')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[4].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> linkedin</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[4].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[4].account,'linkedin')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[4].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> linkedin</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[4].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[4].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> linkedin</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[4].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>	
-			</u-collapse-item>
 			
 			
-			<!--  Linkedin end -->
+		<template v-if="platform.vimeo.status == 1">
+			<u-cell-item bg-color="#FFF" title="vimeo"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.vimeo.status == 2">
+			<u-cell-item bg-color="#FFF" title="vimeo"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.vimeo.status == 3">
+			<u-cell-item bg-color="#FFF" title="vimeo"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.vimeo.status == 4">
+			<u-cell-item bg-color="#FFF" title="vimeo"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else>
+			<u-cell-item bg-color="#FFF" title="vimeo"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		
+		<template v-if="platform.tiktok.status == 1">
+			<u-cell-item bg-color="#FFF" title="tiktok"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.tiktok.status == 2">
+			<u-cell-item bg-color="#FFF" title="tiktok"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.tiktok.status == 3">
+			<u-cell-item bg-color="#FFF" title="tiktok"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.tiktok.status == 4">
+			<u-cell-item bg-color="#FFF" title="tiktok"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else>
+			<u-cell-item bg-color="#FFF" title="tiktok"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		
+		<template v-if="platform.veoh.status == 1">
+			<u-cell-item bg-color="#FFF" title="veoh"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
+				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.veoh.status == 2">
+			<u-cell-item bg-color="#FFF" title="veoh"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
+				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.veoh.status == 3">
+			<u-cell-item bg-color="#FFF" title="veoh"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
+				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform.veoh.status == 4">
+			<u-cell-item bg-color="#FFF" title="veoh"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
+				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>	
+		<template v-else>
+			<u-cell-item bg-color="#FFF" title="veoh"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
+				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
 			
-			<!--  Vimeo begin -->
-			
-			<template v-if="platform[5].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> vimeo</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[5].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[5].account,'vimeo')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-else-if="platform[5].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> vimeo</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[5].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[5].account,'vimeo')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[5].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> vimeo</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[5].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[5].account,'vimeo')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[5].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> vimeo</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[5].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[5].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> vimeo</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[5].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>	
-			</u-collapse-item>
-			
-			
-			<!--  Vimeo end -->
-			
-			<!--  Tiktok begin -->
-			
-			<template v-if="platform[6].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> tiktok</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[6].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[6].account,'tiktok')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-else-if="platform[6].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> tiktok</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[6].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[6].account,'tiktok')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[6].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> tiktok</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[6].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[6].account,'tiktok')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[6].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> tiktok</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[6].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[5].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> tiktok</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[6].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>	
-			</u-collapse-item>
-			
-			<!--  Tiktok end -->
-			
-			<!--  Veoh begin -->
-			
-			<template v-if="platform[7].status == 1">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> veoh</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未分发过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[7].account" placeholder="请输入账号" height="100"/>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-else-if="platform[7].status == ''">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> veoh</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未设置
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[7].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[7].account,'veoh')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[7].status == '2'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> veoh</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								未通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[7].account" placeholder="请输入账号" height="100"/>
-					<view class="confirmBtn"><u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="editAccount(platform[7].account,'veoh')">修改</u-button></view>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[7].status == '3'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> veoh</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								已通过
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[7].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>
-			<template v-if="platform[5].status == '4'">
-				<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> veoh</view>
-						<view class="cellRight">
-							<u-button shape="circle" :custom-style="reviewBtn">
-								ip被封
-							</u-button>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[7].account" placeholder="请输入账号" height="100" disabled="true"/>
-				</view>
-				</u-collapse-item>
-			</template>	
-			</u-collapse-item>
-			<!--  Veoh end -->
-		</u-collapse>
-	    </view>
-		<view class="submit">
-			<u-button type="primary" shape="circle" @click="updateIp">确定</u-button>
 		</view>
+		
+		
+		<template v-if="status == 4">
+			<view class="submit">
+				<u-button type="primary" shape="circle" @click="updateIp">修改</u-button>
+			</view>
+		</template>
+		<template v-else>
+			<view class="submit">
+				<u-button type="primary" shape="circle" disabled="true">不可修改</u-button>
+			</view>
+		</template>
+		
 		
 		<u-action-sheet :list="pricesList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
 		<u-toast ref="uToast" />
+		<u-popup v-model="modal" mode="bottom">
+					  <view class="modalTitle">
+					      {{modalTitle}}
+					  </view>
+					  <view class="modalDesc">
+						  {{modalDesc}}
+					  </view>
+					  <view class="modalInput">
+						  <u-input 
+						  v-model="modalValue"
+						  height="102"
+						  :custom-style="{'font-size':'28rpx','background':'#F5F5F5','padding-left':'44rpx'}"
+						  placeholder="请输入您的账号" />
+					  </view>
+					  <view class="modalBtn">
+					  <u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="setAccount">确定</u-button>
+					  </view>
+		</u-popup>
 	</view>
 </template>
 
@@ -818,67 +280,23 @@
 					marginRight:'20rpx'
 				},
 				confirmBtn:{
-					width:'140rpx',
-					height:'50rpx',
+					width: '630rpx',
+					height: '100rpx',
+					background: '#428BF4'
 				},
 				index:0,
-				platform:[
-					{
-						id:0,
-						name:"YouTube",
-						account:'',
-						password:''
-					},
-					{
-						id:0,
-						name:"facebook",
-						account:'',
-						password:''
-					},
-					{
-						id:0,
-						name:"Twitter",
-						account:'',
-						password:''
-					},
-					{
-						id:0,
-						name:"pinterest",
-						account:'',
-						password:''
-					},
-					{
-						id:0,
-						name:"linkedin",
-						account:'',
-						password:''
-					},
-					{
-						id:0,
-						name:"vimeo",
-						account:'',
-						password:''
-					},
-					{
-						id:0,
-						name:"tiktok",
-						account:'',
-						password:''
-					},
-					{
-						id:0,
-						name:"veoh",
-						account:'',
-						password:''
-					},
-				],
+				platform:[],
 				area:'',
 				status:'',
 				ip_id:'',
 				price:'',
 				pricesList:[], //地区及价格列表
 				show:false,
-				
+				modalTitle:'',
+				modalDesc:'',
+				modalValue:'',
+				modal:false,
+				modalIndex:'', //当前modal 指针
 			}
 		},
 		onLoad(data){
@@ -890,8 +308,6 @@
 				this.$u.api.getIpAgentList().then(res => {
 					console.log(res)
 					if(res.code == 200){
-						
-						
 						console.log(res.data.ip_agent[this.index])
 						this.area = res.data.ip_agent[this.index]['area']
 						this.status = res.data.ip_agent[this.index]['status']
@@ -914,20 +330,8 @@
 							})
 							
 						}
-						
-						
-						for(let i in res.data.ip_agent[this.index]['platform']){
-							//console.log(res.data.ip_agent[this.index]['platform'][i])
-							let self = this
-							this.platform.map(function(item,index){
-								if(item.name == res.data.ip_agent[self.index]['platform'][i]['name']){
-									console.log(res.data.ip_agent[self.index]['platform'][i]['id'])
-									self.platform[index]['id'] = res.data.ip_agent[self.index]['platform'][i]['id'];
-									self.platform[index]['account'] = res.data.ip_agent[self.index]['platform'][i]['account'];
-									self.platform[index]['status'] = res.data.ip_agent[self.index]['platform'][i]['status'];
-								}
-							})
-						}
+						this.platform = res.data.ip_agent[this.index]['platform']
+					
 					
 					}
 				})
@@ -955,8 +359,91 @@
 				console.log(account)
 				console.log(name)
 			},
-			setStyle(value){ 
+			showModal(value){ 
 				console.log(value)
+			    console.log(this.platform)
+				console.log(this.platform[value].account)
+				console.log(this.platform[value].status)
+				
+				this.modalTitle = value
+				
+				if(this.platform[value].status ==1){
+					this.modal = true
+					this.modalDesc = '待审核，此账号还未分发过'
+					this.modalValue = this.platform[value].account
+					// console.log(this.platform[value].id)
+					// return
+					// this.$u.api.updatePlatfrom({
+					// 	id:this.platform[value].id,
+		   //              account:this.modalValue
+					// }).then(res => {
+						
+					// })
+				}else if(this.platform[value].status ==2){
+					this.modal = true
+					this.modalDesc = '账号异常，请核对您的账号'
+					this.modalValue = this.platform[value].account
+					// console.log(this.platform[value].id)
+					// return
+				}else if(this.platform[value].status ==3){
+					
+				}else if(this.platform[value].status ==4){
+					
+				}else{
+					this.modal = true
+					this.modalDesc = '请填写您的账号'
+					this.modalValue = this.platform[value].account
+					
+				}
+				
+				
+				
+			},
+			setAccount(){
+				if(!this.modalValue){
+					this.$refs.uToast.show({
+						title: '请填写平台账号',
+						type: 'primary',
+						duration: '2300'
+					})
+					return
+				}
+				if(this.platform[this.modalTitle].status == 1){
+					this.$u.api.updatePlatfrom({
+						id:this.platform[this.modalTitle].id,
+						account:this.modalValue
+								}).then(res => {
+									let self = this
+									if(res.code == 200){
+										this.$refs.uToast.show({
+											title: '修改成功',
+											position:'top',
+											callback:function(){
+												self.modal = false
+											}
+										})	
+									}
+								})
+				}else if(this.platform[this.modalTitle].status == 0){
+					this.$u.api.addIpAgentOne({
+					    ip_id:this.ip_id,
+						platform:this.modalTitle,
+						account:this.modalValue,
+								}).then(res => {
+									let self = this
+									if(res.code == 200){
+										this.$refs.uToast.show({
+											title: res.message,
+											position:'top',
+											callback:function(){
+												self.modal = false
+											}
+										})	
+									}
+								})
+				}
+				
+				
 			},
 			updateIp(){
 				console.log('修改')
@@ -1053,5 +540,27 @@
 	}
 	.submit{
 		margin: 152rpx 48rpx 0 48rpx;
+	}
+	.modalTitle{
+		color: #333333;
+		font-size: 32rpx;
+		text-align: center;
+		margin:20rpx auto 24rpx;
+	}
+	.modalDesc{
+		font-size: 24rpx;
+		text-align: center;
+		color: #CCCCCC;
+	}
+	.modalInput{
+		width: 686rpx;
+		height: 102rpx;
+		background: #F5F5F5;
+		border-radius: 16rpx;
+		margin: 40rpx auto;
+	}
+	.modalBtn{
+		width: 630rpx;
+		margin:0 auto 128rpx;
 	}
 </style>

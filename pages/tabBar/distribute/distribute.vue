@@ -5,38 +5,54 @@
 			
 			<!-- 已经登录，并且PC端已经设置IP -->
 			
-			<view class="label">选择ip</view>
-			
-			
+			<view class="label">选择分发ip</view>
 			<view class="list">
 			<u-cell-group>
-				<u-radio-group v-model="index" width ="160rpx">
-					<template v-for="(item,index) in cellList">
-					<u-gap height="32"></u-gap>
-					<u-cell-item bg-color="#F4F5F6" title="ip1" :arrow="false"  :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" >
-						<u-image width="42" height="50" slot="icon" src="/static/icon/ip_icon.png"></u-image>
-						<u-button type="primary" shape ="circle" :custom-style="edit" @click="account(index)">编辑</u-button>
-						<u-radio :name="item.id" slot="right-icon">{{item.area}}</u-radio>
-					</u-cell-item>
-					</template>
-				
-					</u-radio-group>
+				<u-radio-group v-model="ip_id">
+				<template v-for="(item,index) in cellList">
+				<u-cell-item 
+				bg-color="#FFF" 
+				:title="item.name" 
+				:arrow="false" 
+				hover-class="none"
+				:title-style="{'margin-left': '32rpx','font-size':'32rpx','color':'#333333','font-weight':''}" 
+				:value="item.area" 
+				:value-style="{'margin-right':'20rpx'}"
+				>
+					<u-radio :name="item.id" slot="right-icon"></u-radio>
+				</u-cell-item>
+				<view class="cellBar" @click="account(index)">
+					<text class="setText">IP设置</text>
+					<u-icon class="icon-right" name="arrow-right"></u-icon>
+				</view>
+				</template>
+				</u-radio-group>
 			</u-cell-group>
 			</view>
 			
 			<!-- 新增ip -->
+			
 			<view class="addip" v-if="len<3">
-				<u-button shape="circle" :custom-style="addBtn" @click="addIp">
-					<u-icon name="../../../static/icon/add_icon.png" :custom-style="{'margin-right':'20rpx'}" size="24"></u-icon>
-					新增ip
-				</u-button>
+				<u-cell-group>
+					<u-cell-item bg-color="#FFF" title="新增IP" :title-style="{'margin-left':'30rpx'}" @click="addIp">
+						<u-icon slot="icon" name="plus" size="36"></u-icon>
+					</u-cell-item>
+				</u-cell-group>
 			</view>
 			<!--end-->
 			
 		</template>
 		
+		
+		<!-- 未登录显示组件-->
+		 
+		<view class="login" v-if="!vuex_hasLogin">
+			<u-button shape="circle" :custom-style="btnStyle2" :ripple="true" ripple-bg-color="#88b9ff" @click="login">注册/登录</u-button>
+			<p>体验一键分发功能，请先登录喔</p>
+		</view>
+		<!-- 未登录显示组件end -->
 	
-		<view class="labelTitle">一键分发</view>
+		<view class="label">分发内容选择</view>
 		<view class="content">
 			<u-row>
 				<u-col span="6">
@@ -50,24 +66,17 @@
 				<u-col span="6">
 					<view class="item" @click="webff">
 						<view class="item_img">
-						<u-image width="47" height="47" src="../../../static/icon/wzff_icon.png"></u-image>
+						<u-image width="48" height="52" src="../../../static/icon/wzff_icon.png"></u-image>
 						</view>
-						<view class="text">网站分发</view>
+						<view class="text">网站分发</view> 
 					</view>
 				</u-col>
 			</u-row>
 		</view>
 	     
-		 <!-- 未登录显示组件-->
-		 
-	    <view class="login" v-if="!vuex_hasLogin">
-	    	<u-button shape="circle" :custom-style="btnStyle2" :ripple="true" ripple-bg-color="#88b9ff" @click="login">注册/登录</u-button>
-	    	<p>体验一键建站功能，请先登录喔</p>
-	    </view>
-		<!-- 未登录显示组件end -->
+		
 
 		<u-toast ref="uToast" />
-		
 		<!-- ActionSheet 操作 -->
 		<u-action-sheet :list="list" v-model="show"></u-action-sheet>
 		<!--ActionSheet  end -->
@@ -106,13 +115,13 @@
 					marginTop:'133rpx'
 				},
 				btnStyle2:{
-					width:'319rpx',
-					height:'80rpx',
-					padding:'23rpx 88rpx 25rpx 85rpx',
-					background:'linear-gradient(to right, #4293f4, #4276f4)',
-					fontSize:'34rpx',
-					color:'#fff',
-					marginTop:'179rpx'
+					width:'211rpx',
+					height:'71rpx',
+					padding:'22rpx 48rpx 22rpx 48rpx',
+					background:'rgb(217,233,253)',
+					fontSize:'26rpx',
+					color:'#4293F4',
+					marginTop:"110rpx"
 				},
 				addBtn:{
 					width:'319rpx',
@@ -124,7 +133,8 @@
 				},
 				cellList:[] ,//ip列表
 				len:0          ,//用于记录当前已经创建ip,限制3个\
-				index:''
+				index:'',
+				ip_id:''
 			}
 		},
 		onShow(){
@@ -147,7 +157,7 @@
 					this.$u.route('/packageA/pages/login/login');
 					return
 				}
-				if(!this.index){
+				if(!this.ip_id){
 					this.$refs.uTips.show({
 						title: '请选择ip',
 						type: 'primary',
@@ -158,16 +168,17 @@
 				this.$u.route({
 					url:'/packageB/pages/distribution/videos',
 					params: {
-						ip_id: this.index
+						ip_id: this.ip_id
 					}
 				});
 			},
 			webff(){
+				console.log(this.ip_id)
 				if(!this.vuex_hasLogin){
 					this.$u.route('/packageA/pages/login/login');
 					return
 				}
-				if(!this.index){
+				if(!this.ip_id){
 					this.$refs.uTips.show({
 						title: '请选择ip',
 						type: 'primary',
@@ -178,7 +189,7 @@
 				this.$u.route({
 					url:'/packageB/pages/distribution/webff',
 					params: {
-						ip_id: this.index
+						ip_id: this.ip_id
 					}
 				});
 				
@@ -206,7 +217,11 @@
 		}
 	}
 </script>
-
+<style>
+	page{
+		background: #F6F6F8;
+	}
+</style>
 <style scoped>
 	.tips{
 		font-size: 26rpx;
@@ -214,10 +229,25 @@
 		text-align: center;
 	}
 	.item{
-		background: rgb(241,245,254);
-		width: 319rpx;
-		height: 130rpx;
-		border-radius: 15rpx;
+		background:#FFFFFF;
+		width: 332rpx;
+		height: 132rpx;
+		border-radius: 16rpx;
+	}
+	.cellBar{
+		margin-bottom: 20rpx;
+		background-color: #fff;
+		height: 60rpx;
+		line-height: 60rpx;
+		color: #999999;
+	}
+	.setText{
+		margin-left: 32rpx;
+		font-size: 24rpx;
+	}
+	.icon-right{
+		float: right;
+		margin:12rpx 32rpx 16rpx 0;
 	}
 	.item_img{
 		display: inline-block;
@@ -226,16 +256,20 @@
 	.text{
 		display: inline-block;
 		vertical-align: top;
+		font-size: 36rpx;
 		margin-top: 49rpx;
 	}
 	.label{
-		margin: 50rpx 0 37rpx 49rpx;
+		 height: 64rpx;
+		 padding-left: 32rpx;
+		 justify-content: center;
+		 align-items: flex-start;
+		 display: flex;
+		 flex-direction: column;
 	}
-	.labelTitle{
-		margin: 189rpx 0 37rpx 49rpx;
-	}
+
 	.content{
-		margin: 0  46rpx;
+		margin: 0  32rpx;
 	}
 	.login{
 		margin: 74rpx auto 0;
@@ -245,10 +279,9 @@
 		text-align: center;
 		color:#393C4C;
 	}
-	.list{
-		margin: 0 45rpx 0 45rpx;
-	}
 	.addip{
 		margin-top: 29rpx;
 	}
+	
+	
 </style>

@@ -1,152 +1,62 @@
 <template>
 	<view>
-		<view class="labelTitle">选择要发布的平台</view>
-		<view class="list">
-		<u-collapse :item-style="itemStyle" @change="setStyle">
-			<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Youtube</view>
-						<view class="cellRight">
-							<u-checkbox-group>
-							<u-checkbox name="Youtube" v-model="checked"  shape="circle"></u-checkbox>
-							</u-checkbox-group>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[0].account" placeholder="请输入账号" height="100"/>
-				</view>
-			</u-collapse-item>
-			<u-collapse-item title="facebook">
-						<view slot="title-all">
-								<view class="cellIcon">
-								<u-icon name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
-								</view>
-								<view class="cellTitle"> Facebook</view>
-								<view class="cellRight">
-									<u-checkbox-group>
-									<u-checkbox name="Facebook" v-model="checked"  shape="circle"></u-checkbox>
-									</u-checkbox-group>
-								</view>
-						</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[1].account" placeholder="请输入账号" height="100"/>
-				</view>
-			</u-collapse-item>
-			<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Twitter</view>
-						<view class="cellRight">
-							<u-checkbox-group>
-							<u-checkbox name="twitter" v-model="checked"  shape="circle"></u-checkbox>
-							</u-checkbox-group>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[2].account" placeholder="请输入账号" height="100"/>
-				</view>
-			</u-collapse-item>
-			<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Pinterst</view>
-						<view class="cellRight">
-							<u-checkbox-group>
-							<u-checkbox name="pinterest" v-model="checked"  shape="circle"></u-checkbox>
-							</u-checkbox-group>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[3].account" placeholder="请输入账号" height="100"/>
-				</view>
-				
-			</u-collapse-item>
-			<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Linkedin</view>
-						<view class="cellRight">
-							<u-checkbox-group>
-							<u-checkbox name="Linkedin" v-model="checked"  shape="circle"></u-checkbox>
-							</u-checkbox-group>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[4].account" placeholder="请输入账号" height="100"/>
-				</view>
-			</u-collapse-item>
-			<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Vimeo</view>
-						<view class="cellRight">
-							<u-checkbox-group>
-							<u-checkbox name="Vimeo" v-model="checked"  shape="circle"></u-checkbox>
-							</u-checkbox-group>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[5].account" placeholder="请输入账号" height="100"/>
-				</view>
-			</u-collapse-item>
-			<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Tiktok</view>
-						<view class="cellRight">
-							<u-checkbox-group>
-							<u-checkbox name="Tiktok" v-model="checked"  shape="circle"></u-checkbox>
-							</u-checkbox-group>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[6].account" placeholder="请输入账号" height="100"/>
-				</view>
-			</u-collapse-item>
-			<u-collapse-item>
-				<view slot="title-all">
-						<view class="cellIcon">
-						<u-icon name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
-						</view>
-						<view class="cellTitle"> Veoh</view>
-						<view class="cellRight">
-							<u-checkbox-group>
-							<u-checkbox name="Veoh" v-model="checked"  shape="circle"></u-checkbox>
-							</u-checkbox-group>
-						</view>
-				</view>
-				<view class="collapse-content">
-					<u-input v-model="platform[7].account" placeholder="请输入账号" height="100"/>
-				</view>
-			</u-collapse-item>
-			
-		</u-collapse>
-	    </view>
-		<view class="ipTitle">选择IP地址</view>
+		
+		<view class="labelTitle">选择IP地址</view>
 		<view class="choose">
-			<u-form :model="form" ref="uForm" label-width="150rpx">
-			<u-form-item label="选择站点">
-				<u-input v-model="area" input-align="right" type="select" :select-open="actionSheetShow" placeholder="请选择站点" @click="show = true"></u-input>
-			</u-form-item>
-			</u-form>
+			<u-cell-item bg-color="#FFF" title="地址" :title-style="{'margin-left':'30rpx'}" :value="area" @click="show = true">
+			</u-cell-item>
 		</view>
+		<view class="labelTitle">选择绑定平台</view>
+		<view class="list">
+			<u-cell-item bg-color="#FFF" title="YouTube"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+				<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
+			</u-cell-item>
+			<u-cell-item bg-color="#FFF" title="facebook"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
+				<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+			</u-cell-item>
+			<u-cell-item bg-color="#FFF" title="Twitter"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+				<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
+			</u-cell-item>
+			<u-cell-item bg-color="#FFF" title="pinterest"  value="设置" :title-style="{'margin-left':'30rpx'}" @click="showModal('pinterest')">
+				<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+			</u-cell-item>
+			<u-cell-item bg-color="#FFF" title="linkedin"  value="设置" :title-style="{'margin-left':'30rpx'}" @click="showModal('linkedin')">
+				<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+			</u-cell-item>
+			<u-cell-item bg-color="#FFF" title="vimeo"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+			</u-cell-item>
+			<u-cell-item bg-color="#FFF" title="tiktok"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+			<u-cell-item bg-color="#FFF" title="veoh"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
+				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			</u-cell-item>
+	    </view>
+		
 		<view class="submit">
 			<u-button type="primary" shape="circle" @click="submit">确定</u-button>
 		</view>
 		<u-action-sheet :list="pricesList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
+		<u-toast ref="uToast" />
+		<u-popup v-model="modal" mode="bottom">
+					  <view class="modalTitle">
+					      {{modalTitle}}
+					  </view>
+					  <view class="modalDesc">
+						  请填写您的账号
+					  </view>
+					  <view class="modalInput">
+						  <u-input 
+						  v-model="modalValue"
+						  height="102"
+						  :custom-style="{'font-size':'28rpx','background':'#F5F5F5','padding-left':'44rpx'}"
+						   placeholder="请输入平台账号" />
+					  </view>
+					  <view class="modalBtn">
+					  <u-button type="primary" shape="circle" :custom-style="confirmBtn" @click="setAccount">确定</u-button>
+					  </view>
+	    </u-popup>
 		<u-toast ref="uToast" />
 		
 	</view>
@@ -166,10 +76,14 @@
 					marginRight:'20rpx'
 				},
 				confirmBtn:{
-					width:'140rpx',
-					height:'50rpx',
+					width: '630rpx',
+					height: '100rpx',
+					background: '#428BF4'
 				},
 				pricesList:[],
+				modalTitle:'',
+				modalValue:'',
+				modal:false,
 				show:false,
 				area:'', //选择地区名称
 				ip_code:'', //选择地区代码
@@ -216,42 +130,6 @@
 						password:''
 					},
 				]
-				// platform:{
-				// 	"YouTube": {
-				// 		name:"YouTube",
-				// 		account:""
-				// 	},
-				// 	"facebook":{
-				// 		name:"facebook",
-				// 		account:""
-				// 	},
-				// 	"Twitter":{
-				// 		name:"Twitter",
-				// 		account:""
-				// 	},
-				// 	"pinterest":{
-				// 		name:"pinterest",
-				// 		account:""
-				// 	},
-				// 	"linkedin":{
-				// 		name:"linkedin",
-				// 		account:""
-				// 	},
-				// 	"vimeo":{
-				// 		name:"vimeo",
-				// 		account:""
-				// 	},
-				// 	"tiktok":{
-				// 		name:"tiktok",
-				// 		account:""
-				// 	},
-				// 	"veoh":{
-				// 		name:"veoh",
-				// 		account:""
-				// 	}
-					
-					
-				// }
 				
 				
 			}
@@ -286,8 +164,38 @@
 				this.area = this.pricesList[index].text
 				this.ip_code = this.pricesList[index].name
 			},
-			setStyle(value){ 
-				console.log(value)
+			showModal(name){
+				console.log(name)
+				this.modal = true
+				this.modalTitle = name
+				let self = this
+				this.platform.map(function(item){
+					if(item.name == name){
+						self.modalValue = item.account
+					}
+				})
+			},
+			setAccount(){
+				console.log(this.modalValue)
+				if(!this.modalValue){
+					this.$refs.uToast.show({
+						title: '请填写平台账号',
+						type: 'primary',
+						duration: '2300'
+					})
+					return
+				}
+				let self = this
+				this.platform.map(function(item,index){
+					console.log(item.name)
+					console.log(self.modalTitle)
+					if(item.name == self.modalTitle){
+						self.platform[index]['account'] = self.modalValue
+						self.modal = false
+						self.modalValue = ''
+					}
+				})
+				console.log(this.platform)
 			},
 			submit(){
 				if(!this.area){
@@ -303,15 +211,10 @@
 					platform:JSON.stringify(this.platform)
 				}).then(res=>{
 					if(res.code == 200){
-						let self = this
 						this.$refs.uToast.show({
 							title: res.message,
 							position:'top',
-							callback:function(){
-								self.$u.route({
-									type:'navigateBack'
-								})
-							}
+							back:true
 						})	
 					}
 				})
@@ -320,14 +223,21 @@
 	}
 </script>
 
+<style>
+	page{
+		background: #F6F6F8;
+	}
+</style>
 <style scoped>
 	.labelTitle{
-		margin:50rpx 0 0 51rpx;
-		font-size: 28rpx;
-		color: #393C4C;
+			 height: 64rpx;
+			 padding-left: 32rpx;
+			 justify-content: center;
+			 align-items: flex-start;
+			 display: flex;
+			 flex-direction: column;
 	}
 	.list{
-		margin: 33rpx 46rpx 0 45rpx;
 		background: rgb(246,246,248);
 	}
 	.cellIcon{
@@ -359,10 +269,31 @@
 		color: #393C4C;
 	}
 	.choose{
-		margin: 0 45rpx 0 45rpx;
-		background-color: rgb(246,246,248);
+		background-color: #FFFFFF;
 	}
 	.submit{
 		margin: 152rpx 48rpx 0 48rpx;
+	}
+	.modalTitle{
+		color: #333333;
+		font-size: 32rpx;
+		text-align: center;
+		margin:20rpx auto 24rpx;
+	}
+	.modalDesc{
+		font-size: 24rpx;
+		text-align: center;
+		color: #CCCCCC;
+	}
+	.modalInput{
+		width: 686rpx;
+		height: 102rpx;
+		background: #F5F5F5;
+		border-radius: 16rpx;
+		margin: 40rpx auto;
+	}
+	.modalBtn{
+		width: 630rpx;
+		margin:0 auto 128rpx;
 	}
 </style>
