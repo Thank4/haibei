@@ -94,7 +94,7 @@
 											//提示登录成功，跳转首页,暂时
 											let self = this
 											this.$refs.uToast.show({
-												title: '注册登录成功',
+												title: '登录成功',
 												callback:function(){
 													//获取通过微信登录，获取用户openID
 													uni.login({

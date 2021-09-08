@@ -230,7 +230,7 @@
 	}
 	.item{
 		background:#FFFFFF;
-		width: 332rpx;
+		width: 322rpx;
 		height: 132rpx;
 		border-radius: 16rpx;
 	}
@@ -251,13 +251,13 @@
 	}
 	.item_img{
 		display: inline-block;
-		margin: 49rpx 33rpx 39rpx 59rpx;
+		margin: 40rpx 28rpx 40rpx 36rpx;
 	}
 	.text{
 		display: inline-block;
 		vertical-align: top;
 		font-size: 36rpx;
-		margin-top: 49rpx;
+		margin-top: 42rpx;
 	}
 	.label{
 		 height: 64rpx;

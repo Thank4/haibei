@@ -4,13 +4,13 @@
 		<view class="labelTitle">选择IP地址</view>
 		<template v-if="status == 4">
 			<view class="choose">
-				<u-cell-item bg-color="#FFF" title="地址" :title-style="{'margin-left':'30rpx'}" :value="area" @click="show = true">
+				<u-cell-item bg-color="#FFF" title="地址" :title-style="{'margin-left':'30rpx'}" :value="area">
 				</u-cell-item>
 			</view>
 		</template>
 		<template v-else>
 			<view class="choose">
-				<u-cell-item bg-color="#FFF" title="地址" :title-style="{'margin-left':'30rpx'}" :value="area" >
+				<u-cell-item bg-color="#FFF" title="地址" :title-style="{'margin-left':'30rpx'}" :value="area" @click="show = true">
 				</u-cell-item>
 			</view>
 		</template>
@@ -19,212 +19,212 @@
 		<view class="labelTitle">选择绑定平台</view>
 		<view class="list">
 			<template v-if="platform.YouTube.status == 1">
-				<u-cell-item bg-color="#FFF" title="YouTube"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+				<u-cell-item bg-color="#FFF" title="YouTube"  :value-style="info" value="待审核" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
 					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else-if="platform.YouTube.status == 2">
-				<u-cell-item bg-color="#FFF" title="YouTube"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+				<u-cell-item bg-color="#FFF" title="YouTube"  :value-style="warnning"  value="账号异常" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
 					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else-if="platform.YouTube.status == 3">
-				<u-cell-item bg-color="#FFF" title="YouTube"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+				<u-cell-item bg-color="#FFF" title="YouTube"  value="正常" :title-style="{'margin-left':'30rpx'}">
 					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else-if="platform.YouTube.status == 4">
-				<u-cell-item bg-color="#FFF" title="YouTube"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+				<u-cell-item bg-color="#FFF" title="YouTube" :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
 					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else>
-				<u-cell-item bg-color="#FFF" title="YouTube"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
+				<u-cell-item bg-color="#FFF" title="YouTube" :value-style="info" value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
 					<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			
 			
-			<template v-if="platform.facebook.status == 1">
-				<u-cell-item bg-color="#FFF" title="facebook"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
-					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+			<template v-if="platform.Facebook.status == 1">
+				<u-cell-item bg-color="#FFF" title="Facebook" :value-style="info" value="待审核" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Facebook')">
+					<u-icon slot="icon" name="../../../static/icon/Facebook_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
-			<template v-else-if="platform.facebook.status == 2">
-				<u-cell-item bg-color="#FFF" title="facebook"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
-					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+			<template v-else-if="platform.Facebook.status == 2">
+				<u-cell-item bg-color="#FFF" title="Facebook"  :value-style="warnning"  value="账号异常" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Facebook')">
+					<u-icon slot="icon" name="../../../static/icon/Facebook_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
-			<template v-else-if="platform.facebook.status == 3">
-				<u-cell-item bg-color="#FFF" title="facebook"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
-					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+			<template v-else-if="platform.Facebook.status == 3">
+				<u-cell-item bg-color="#FFF" title="Facebook"  value="正常" :title-style="{'margin-left':'30rpx'}">
+					<u-icon slot="icon" name="../../../static/icon/Facebook_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
-			<template v-else-if="platform.facebook.status == 4">
-				<u-cell-item bg-color="#FFF" title="facebook"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
-					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+			<template v-else-if="platform.Facebook.status == 4">
+				<u-cell-item bg-color="#FFF" title="Facebook"  :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
+					<u-icon slot="icon" name="../../../static/icon/Facebook_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else>
-				<u-cell-item bg-color="#FFF" title="facebook"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
-					<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
+				<u-cell-item bg-color="#FFF" title="Facebook" :value-style="info" value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Facebook')">
+					<u-icon slot="icon" name="../../../static/icon/Facebook_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			
 			<template v-if="platform.Twitter.status == 1">
-				<u-cell-item bg-color="#FFF" title="Twitter"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+				<u-cell-item bg-color="#FFF" title="Twitter" :value-style="info" value="待审核" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
 					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else-if="platform.Twitter.status == 2">
-				<u-cell-item bg-color="#FFF" title="Twitter"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+				<u-cell-item bg-color="#FFF" title="Twitter" :value-style="warnning"  value="账号异常" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
 					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else-if="platform.Twitter.status == 3">
-				<u-cell-item bg-color="#FFF" title="Twitter"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+				<u-cell-item bg-color="#FFF" title="Twitter"  value="正常" :title-style="{'margin-left':'30rpx'}">
 					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else-if="platform.Twitter.status == 4">
-				<u-cell-item bg-color="#FFF" title="Twitter"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+				<u-cell-item bg-color="#FFF" title="Twitter"  :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
 					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else>
-				<u-cell-item bg-color="#FFF" title="Twitter"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
+				<u-cell-item bg-color="#FFF" title="Twitter" :value-style="info" value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
 					<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			
-			<template v-if="platform.pinterest.status == 1">
-				<u-cell-item bg-color="#FFF" title="pinterest"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
-					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+			<template v-if="platform.Pinterest.status == 1">
+				<u-cell-item bg-color="#FFF" title="Pinterest" :value-style="info" value="待审核" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/Pinterest_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
-			<template v-else-if="platform.pinterest.status == 2">
-				<u-cell-item bg-color="#FFF" title="pinterest"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
-					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+			<template v-else-if="platform.Pinterest.status == 2">
+				<u-cell-item bg-color="#FFF" title="Pinterest" :value-style="warnning"  value="账号异常" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/Pinterest_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
-			<template v-else-if="platform.pinterest.status == 3">
-				<u-cell-item bg-color="#FFF" title="Twitter"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
-					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
+			<template v-else-if="platform.Pinterest.status == 3">
+				<u-cell-item bg-color="#FFF" title="Pinterest"  value="正常" :title-style="{'margin-left':'30rpx'}">
+					<u-icon slot="icon" name="../../../static/icon/Pinterest_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
-			<template v-else-if="platform.pinterest.status == 4">
-				<u-cell-item bg-color="#FFF" title="pinterest"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
-					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-				</u-cell-item>
-			</template>
-			<template v-else>
-				<u-cell-item bg-color="#FFF" title="pinterest"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('pinterest')">
-					<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
-				</u-cell-item>
-			</template>
-			
-			<template v-if="platform.linkedin.status == 1">
-				<u-cell-item bg-color="#FFF" title="linkedin"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
-					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-				</u-cell-item>
-			</template>
-			<template v-else-if="platform.linkedin.status == 2">
-				<u-cell-item bg-color="#FFF" title="linkedin"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
-					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-				</u-cell-item>
-			</template>
-			<template v-else-if="platform.linkedin.status == 3">
-				<u-cell-item bg-color="#FFF" title="linkedin"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
-					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
-				</u-cell-item>
-			</template>
-			<template v-else-if="platform.linkedin.status == 4">
-				<u-cell-item bg-color="#FFF" title="linkedin"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
-					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+			<template v-else-if="platform.Pinterest.status == 4">
+				<u-cell-item bg-color="#FFF" title="Pinterest"  :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
+					<u-icon slot="icon" name="../../../static/icon/Pinterest_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			<template v-else>
-				<u-cell-item bg-color="#FFF" title="linkedin"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('linkedin')">
-					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
+				<u-cell-item bg-color="#FFF" title="Pinterest"  :value-style="info" value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Pinterest')">
+					<u-icon slot="icon" name="../../../static/icon/Pinterest_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			
+			<template v-if="platform.LinkedIn.status == 1">
+				<u-cell-item bg-color="#FFF" title="LinkedIn" :value-style="info" value="待审核"  :title-style="{'margin-left':'30rpx'}"  @click="showModal('LinkedIn')">
+					<u-icon slot="icon" name="../../../static/icon/LinkedIn_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.LinkedIn.status == 2">
+				<u-cell-item bg-color="#FFF" title="LinkedIn"  :value-style="warnning"  value="账号异常" :title-style="{'margin-left':'30rpx'}"  @click="showModal('LinkedIn')">
+					<u-icon slot="icon" name="../../../static/icon/LinkedIn_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.LinkedIn.status == 3">
+				<u-cell-item bg-color="#FFF" title="LinkedIn"  value="正常" :title-style="{'margin-left':'30rpx'}">
+					<u-icon slot="icon" name="../../../static/icon/LinkedIn_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else-if="platform.LinkedIn.status == 4">
+				<u-cell-item bg-color="#FFF" title="LinkedIn" :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
+					<u-icon slot="icon" name="../../../static/icon/LinkedIn_icon.png" size="50"></u-icon>
+				</u-cell-item>
+			</template>
+			<template v-else>
+				<u-cell-item bg-color="#FFF" title="LinkedIn" :value-style="info" value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('LinkedIn')">
+					<u-icon slot="icon" name="../../../static/icon/LinkedIn_icon.png" size="50"></u-icon>
 				</u-cell-item>
 			</template>
 			
 			
-		<template v-if="platform.vimeo.status == 1">
-			<u-cell-item bg-color="#FFF" title="vimeo"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
-				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+		<template v-if="platform.Vimeo.status == 1">
+			<u-cell-item bg-color="#FFF" title="Vimeo" :value-style="info" value="待审核" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/Vimeo_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
-		<template v-else-if="platform.vimeo.status == 2">
-			<u-cell-item bg-color="#FFF" title="vimeo"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
-				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+		<template v-else-if="platform.Vimeo.status == 2">
+			<u-cell-item bg-color="#FFF" title="Vimeo"  :value-style="warnning"  value="账号异常" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/Vimeo_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
-		<template v-else-if="platform.vimeo.status == 3">
-			<u-cell-item bg-color="#FFF" title="vimeo"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
-				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
+		<template v-else-if="platform.Vimeo.status == 3">
+			<u-cell-item bg-color="#FFF" title="Vimeo"  value="正常" :title-style="{'margin-left':'30rpx'}">
+				<u-icon slot="icon" name="../../../static/icon/Vimeo_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
-		<template v-else-if="platform.vimeo.status == 4">
-			<u-cell-item bg-color="#FFF" title="vimeo"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
-				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-			</u-cell-item>
-		</template>
-		<template v-else>
-			<u-cell-item bg-color="#FFF" title="vimeo"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
-				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
-			</u-cell-item>
-		</template>
-		
-		<template v-if="platform.tiktok.status == 1">
-			<u-cell-item bg-color="#FFF" title="tiktok"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
-				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-			</u-cell-item>
-		</template>
-		<template v-else-if="platform.tiktok.status == 2">
-			<u-cell-item bg-color="#FFF" title="tiktok"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
-				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-			</u-cell-item>
-		</template>
-		<template v-else-if="platform.tiktok.status == 3">
-			<u-cell-item bg-color="#FFF" title="tiktok"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
-				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
-			</u-cell-item>
-		</template>
-		<template v-else-if="platform.tiktok.status == 4">
-			<u-cell-item bg-color="#FFF" title="tiktok"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
-				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+		<template v-else-if="platform.Vimeo.status == 4">
+			<u-cell-item bg-color="#FFF" title="Vimeo"  :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
+				<u-icon slot="icon" name="../../../static/icon/Vimeo_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
 		<template v-else>
-			<u-cell-item bg-color="#FFF" title="tiktok"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+			<u-cell-item bg-color="#FFF" title="Vimeo"  :value-style="info" value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Vimeo')">
+				<u-icon slot="icon" name="../../../static/icon/Vimeo_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+
+		<template v-if="platform['Tik Tok'].status == 1">
+			<u-cell-item bg-color="#FFF" title="Tik Tok"  :value-style="info" value="待审核" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Tik Tok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform['Tik Tok'].status == 2">
+			<u-cell-item bg-color="#FFF" title="Tik Tok"  :value-style="warnning"  value="账号异常" @click="showModal('Tik Tok')">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform['Tik Tok'].status == 3">
+			<u-cell-item bg-color="#FFF" title="Tik Tok"  value="正常" :title-style="{'margin-left':'30rpx'}" >
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else-if="platform['Tik Tok'].status == 4">
+			<u-cell-item bg-color="#FFF" title="Tik Tok"  :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
+				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
+			</u-cell-item>
+		</template>
+		<template v-else>
+			<u-cell-item bg-color="#FFF" title="Tik Tok" :value-style="info"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Tik Tok')">
 				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
 		
-		<template v-if="platform.veoh.status == 1">
-			<u-cell-item bg-color="#FFF" title="veoh"  value="未分发过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
-				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+		<template v-if="platform.Instagram.status == 1">
+			<u-cell-item bg-color="#FFF" title="Instagram"  :value-style="info" value="待审核" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Instagram')">
+				<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
-		<template v-else-if="platform.veoh.status == 2">
-			<u-cell-item bg-color="#FFF" title="veoh"  value="校验未通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
-				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+		<template v-else-if="platform.Instagram.status == 2">
+			<u-cell-item bg-color="#FFF" title="Instagram"  :value-style="warnning"  value="账号异常" :title-style="{'margin-left':'30rpx'}" @click="showModal('Instagram')">
+				<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
-		<template v-else-if="platform.veoh.status == 3">
-			<u-cell-item bg-color="#FFF" title="veoh"  value="校验通过" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
-				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+		<template v-else-if="platform.Instagram.status == 3">
+			<u-cell-item bg-color="#FFF" title="Instagram"  value="正常" :title-style="{'margin-left':'30rpx'}">
+				<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
-		<template v-else-if="platform.veoh.status == 4">
-			<u-cell-item bg-color="#FFF" title="veoh"  value="ip被封" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
-				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+		<template v-else-if="platform.Instagram.status == 4">
+			<u-cell-item bg-color="#FFF" title="Instagram" :value-style="warnning"  value="ip异常" :title-style="{'margin-left':'30rpx'}">
+				<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>	
 		<template v-else>
-			<u-cell-item bg-color="#FFF" title="veoh"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
-				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			<u-cell-item bg-color="#FFF" title="Instagram" :value-style="info"  value="未设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Instagram')">
+				<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="50"></u-icon>
 			</u-cell-item>
 		</template>
 			
@@ -233,23 +233,23 @@
 		
 		<template v-if="status == 4">
 			<view class="submit">
-				<u-button type="primary" shape="circle" @click="updateIp">修改</u-button>
+				<u-button type="primary" shape="circle" disabled="true">不可修改</u-button>
 			</view>
 		</template>
 		<template v-else>
 			<view class="submit">
-				<u-button type="primary" shape="circle" disabled="true">不可修改</u-button>
+				<u-button type="primary" shape="circle" @click="updateIp">修改</u-button>
 			</view>
 		</template>
 		
 		
 		<u-action-sheet :list="pricesList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
 		<u-toast ref="uToast" />
-		<u-popup v-model="modal" mode="bottom">
-					  <view class="modalTitle">
+		<u-popup v-model="modal" border-radius="32" mode="bottom">
+					  <view class="modalTitle" >
 					      {{modalTitle}}
 					  </view>
-					  <view class="modalDesc">
+					  <view class="modalDesc" :style="{color:descColor}">
 						  {{modalDesc}}
 					  </view>
 					  <view class="modalInput">
@@ -257,6 +257,7 @@
 						  v-model="modalValue"
 						  height="102"
 						  :custom-style="{'font-size':'28rpx','background':'#F5F5F5','padding-left':'44rpx'}"
+						  :disabled="disabled"
 						  placeholder="请输入您的账号" />
 					  </view>
 					  <view class="modalBtn">
@@ -284,6 +285,13 @@
 					height: '100rpx',
 					background: '#428BF4'
 				},
+				warnning:{
+					color:'#FF461B'
+				},
+				info:{
+					color:"#428BF4"
+				},
+				descColor:{},
 				index:0,
 				platform:[],
 				area:'',
@@ -297,6 +305,7 @@
 				modalValue:'',
 				modal:false,
 				modalIndex:'', //当前modal 指针
+				disabled:false,
 			}
 		},
 		onLoad(data){
@@ -360,6 +369,13 @@
 				console.log(name)
 			},
 			showModal(value){ 
+				console.log(this.status)
+				if(this.status == 4){
+					this.$refs.uToast.show({
+						title: 'IP异常',
+					})
+					return
+				}
 				console.log(value)
 			    console.log(this.platform)
 				console.log(this.platform[value].account)
@@ -370,6 +386,8 @@
 				if(this.platform[value].status ==1){
 					this.modal = true
 					this.modalDesc = '待审核，此账号还未分发过'
+					this.descColor = '#428BF4'
+					this.disabled = true
 					this.modalValue = this.platform[value].account
 					// console.log(this.platform[value].id)
 					// return
@@ -382,16 +400,20 @@
 				}else if(this.platform[value].status ==2){
 					this.modal = true
 					this.modalDesc = '账号异常，请核对您的账号'
+					this.descColor = 'red'
+					this.disabled = false
 					this.modalValue = this.platform[value].account
 					// console.log(this.platform[value].id)
 					// return
 				}else if(this.platform[value].status ==3){
-					
+					//这边不弹出modal
 				}else if(this.platform[value].status ==4){
-					
+					//这边不弹出modal
 				}else{
 					this.modal = true
 					this.modalDesc = '请填写您的账号'
+					this.descColor = '#CCCCCC'
+					this.disabled = false
 					this.modalValue = this.platform[value].account
 					
 				}
@@ -420,6 +442,7 @@
 											position:'top',
 											callback:function(){
 												self.modal = false
+												self.init()
 											}
 										})	
 									}
@@ -433,10 +456,11 @@
 									let self = this
 									if(res.code == 200){
 										this.$refs.uToast.show({
-											title: res.message,
+											title: '修改成功',
 											position:'top',
 											callback:function(){
 												self.modal = false
+												self.init()
 											}
 										})	
 									}
@@ -461,7 +485,7 @@
 				}).then(res =>{
 					if(res.code == 200){
 						this.$refs.uToast.show({
-							title: res.message,
+							title: '修改成功',
 							position:'top',
 							back:true
 						})	

@@ -11,26 +11,26 @@
 			<u-cell-item bg-color="#FFF" title="YouTube"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('YouTube')">
 				<u-icon slot="icon" name="../../../static/icon/youtube_icon.png" size="50"></u-icon>
 			</u-cell-item>
-			<u-cell-item bg-color="#FFF" title="facebook"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('facebook')">
+			<u-cell-item bg-color="#FFF" title="Facebook"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Facebook')">
 				<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="50"></u-icon>
 			</u-cell-item>
 			<u-cell-item bg-color="#FFF" title="Twitter"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Twitter')">
 				<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="50"></u-icon>
 			</u-cell-item>
-			<u-cell-item bg-color="#FFF" title="pinterest"  value="设置" :title-style="{'margin-left':'30rpx'}" @click="showModal('pinterest')">
+			<u-cell-item bg-color="#FFF" title="Pinterest"  value="设置" :title-style="{'margin-left':'30rpx'}" @click="showModal('Pinterest')">
 				<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="50"></u-icon>
 			</u-cell-item>
-			<u-cell-item bg-color="#FFF" title="linkedin"  value="设置" :title-style="{'margin-left':'30rpx'}" @click="showModal('linkedin')">
+			<u-cell-item bg-color="#FFF" title="LinkedIn"  value="设置" :title-style="{'margin-left':'30rpx'}" @click="showModal('LinkedIn')">
 				<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="50"></u-icon>
 			</u-cell-item>
-			<u-cell-item bg-color="#FFF" title="vimeo"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('vimeo')">
+			<u-cell-item bg-color="#FFF" title="Vimeo"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Vimeo')">
 				<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="50"></u-icon>
 			</u-cell-item>
-			<u-cell-item bg-color="#FFF" title="tiktok"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('tiktok')">
+			<u-cell-item bg-color="#FFF" title="Tik Tok"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Tik Tok')">
 				<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="50"></u-icon>
 			</u-cell-item>
-			<u-cell-item bg-color="#FFF" title="veoh"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('veoh')">
-				<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="50"></u-icon>
+			<u-cell-item bg-color="#FFF" title="Instagram"  value="设置" :title-style="{'margin-left':'30rpx'}"  @click="showModal('Instagram')">
+				<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="50"></u-icon>
 			</u-cell-item>
 	    </view>
 		
@@ -39,7 +39,7 @@
 		</view>
 		<u-action-sheet :list="pricesList" v-model="show" @click="actionSheetCallback"></u-action-sheet>
 		<u-toast ref="uToast" />
-		<u-popup v-model="modal" mode="bottom">
+		<u-popup v-model="modal" border-radius="32" mode="bottom">
 					  <view class="modalTitle">
 					      {{modalTitle}}
 					  </view>
@@ -95,7 +95,7 @@
 						password:''
 					},
 					{
-						name:"facebook",
+						name:"Facebook",
 						account:'',
 						password:''
 					},
@@ -105,27 +105,27 @@
 						password:''
 					},
 					{
-						name:"pinterest",
+						name:"Pinterest",
 						account:'',
 						password:''
 					},
 					{
-						name:"linkedin",
+						name:"LinkedIn",
 						account:'',
 						password:''
 					},
 					{
-						name:"vimeo",
+						name:"Vimeo",
 						account:'',
 						password:''
 					},
 					{
-						name:"tiktok",
+						name:"Tik Tok",
 						account:'',
 						password:''
 					},
 					{
-						name:"veoh",
+						name:"Instagram",
 						account:'',
 						password:''
 					},
@@ -187,8 +187,6 @@
 				}
 				let self = this
 				this.platform.map(function(item,index){
-					console.log(item.name)
-					console.log(self.modalTitle)
 					if(item.name == self.modalTitle){
 						self.platform[index]['account'] = self.modalValue
 						self.modal = false

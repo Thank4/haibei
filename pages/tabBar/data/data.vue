@@ -187,17 +187,17 @@
 		<!--Twitter 榜单 end -->
 		
 		<!--linkedin 榜单 begin -->
-		<view class="rank" v-if="rankData.linkedin >0">
+		<view class="rank" v-if="rankData.LinkedIn >0">
 			<u-cell-group :border="false">
-				<u-cell-item  title="linkedin热榜" :arrow="false" :border-bottom="false">
+				<u-cell-item  title="LinkedIn热榜" :arrow="false" :border-bottom="false">
 					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
-					<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('linkedin')">更多</u-button>
+					<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('LinkedIn')">更多</u-button>
 				</u-cell-item>
 			</u-cell-group>
 			<view>
 			<u-row gutter="16">
 				<u-row gutter="16">
-					<u-col span="4" v-for="item in rankData.linkedin.slice(0,3) ">
+					<u-col span="4" v-for="item in rankData.LinkedIn.slice(0,3) ">
 						<u-image :src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
 					</u-col>
 				</u-row>
@@ -207,17 +207,17 @@
 		<!--linkedin 榜单 end -->
 		
 		<!--pinterest 榜单 begin -->
-		<view class="rank" v-if="rankData.pinterest >0">
+		<view class="rank" v-if="rankData.Pinterest >0">
 			<u-cell-group :border="false">
-							<u-cell-item  title="pinterest热榜" :arrow="false" :border-bottom="false">
+							<u-cell-item  title="Pinterest热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
-								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('pinterest')">更多</u-button>
+								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('Pinterest')">更多</u-button>
 							</u-cell-item>
 						</u-cell-group>
 			<view>
 			<u-row gutter="16">
 				<u-row gutter="16">
-					<u-col span="4" v-for="item in rankData.pinterest.slice(0,3)">
+					<u-col span="4" v-for="item in rankData.Pinterest.slice(0,3)">
 						<u-image :src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
 					</u-col>
 				</u-row>
@@ -227,18 +227,18 @@
 		<!--pinterest 榜单 end -->
 		
 		<!--tiktok 榜单 begin -->
-		<view class="rank" v-if="rankData.tiktok >0">
+		<view class="rank" v-if="rankData['Tik Tok'] >0">
 			<u-cell-group :border="false">
 							<u-cell-item  title="tiktok热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
-								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('tiktok')">更多</u-button>
+								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('Tik Tok')">更多</u-button>
 							</u-cell-item>
 						</u-cell-group>
 			<view>
 			<u-row gutter="16">
 				<u-row gutter="16">
-					<u-col span="4" v-for="item in rankData.tiktok.slice(0,3)">
-						<u-image src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
+					<u-col span="4" v-for="item in rankData['Tik Tok'].slice(0,3)">
+						<u-image :src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
 					</u-col>
 				</u-row>
 			</u-row>
@@ -246,45 +246,45 @@
 		</view>
 		<!--tiktok 榜单 end -->
 		
-		<!--veoh 榜单 begin -->
-		<view class="rank" v-if="rankData.veoh >0">
+		<!--Instagram 榜单 begin -->
+		<view class="rank" v-if="rankData.Instagram >0">
 			<u-cell-group :border="false">
-							<u-cell-item  title="veoh热榜" :arrow="false" :border-bottom="false">
-								<u-icon slot="icon" name="../../../static/icon/veoh_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
-								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('veoh')">更多</u-button>
+							<u-cell-item  title="Instagram热榜" :arrow="false" :border-bottom="false">
+								<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
+								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('Instagram')">更多</u-button>
 							</u-cell-item>
 						</u-cell-group>
 			<view>
 			<u-row gutter="16">
 				<u-row gutter="16">
-						<u-col span="4" v-for="item in rankData.veoh.slice(0,3)">
-							<u-image src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
+						<u-col span="4" v-for="item in rankData.Instagram.slice(0,3)">
+							<u-image :src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
 						</u-col>
 				</u-row>
 			</u-row>
 			</view>
 		</view>
-		<!--veoh 榜单 end -->
+		<!--Instagram 榜单 end -->
 		
 		<!--vimeo 榜单 begin -->
-		<view class="vimeo" v-if="rankData.vimeo >0">
+		<view class="rank" v-if="rankData.Vimeo >0">
 			<u-cell-group :border="false">
-							<u-cell-item  title="vimeo热榜" :arrow="false" :border-bottom="false">
+							<u-cell-item  title="Vimeo热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
-								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('vimeo')">更多</u-button>
+								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('Vimeo')">更多</u-button>
 							</u-cell-item>
 			</u-cell-group>
 		<view>
 			<u-row gutter="16">
 				<u-row gutter="16">
-					<u-col span="4" v-for="item in rankData.vimeo.slice(0,3)">
-						<u-image src="vimeo.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
+					<u-col span="4" v-for="item in rankData.Vimeo.slice(0,3)">
+						<u-image :src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
 					</u-col>
 				</u-row>
 			</u-row>
 		</view>
 		</view>
-		<!--vimeo 榜单 end -->
+		<!--Vimeo 榜单 end -->
 		<u-toast ref="uToast" />
 		
 	</view>
@@ -331,22 +331,22 @@
 						text:'YouTube'
 					},
 					{
-						text:'facebook'
+						text:'Facebook'
 					},
 					{
-						text:'linkedin'
+						text:'LinkedIn'
 					},
 					{
-						text:'pinterest'
+						text:'Pinterest'
 					},
 					{
-						text:'tiktok'
+						text:'Tik Tok'
 					},
 					{
-						text:'veoh'
+						text:'Instagram'
 					},
 					{
-						text:'vimeo'
+						text:'Vimeo'
 					}
 				], //平台列表
 				show1:false,

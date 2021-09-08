@@ -3,11 +3,12 @@
 		
 		<template v-if="isupload">
 		<view class="upload">
-		<video class="viedoBox" :src="url"></video>
-			<view class="bd7" @click="uploadPreview()">
-		        <text lines="1" class="word3">上传封面图</text>
-		      </view>
-		</view>	  
+			 <!-- <image src="https://video-1303139325.cos.ap-hongkong.myqcloud.com/1630985542.9333.jpg" class="preview"></image> -->
+			  <image :src="preview" class="preview"></image> 
+		  <view class="main2">
+			<image src="../../../static/icon/play_icon.png" class="play"></image>
+		  </view>
+		</view>	 
 		</template>
 		
 	    <view class="upload"  v-else  @click="upload()">
@@ -15,7 +16,7 @@
 		    <image src="../../../static/icon/upload_icon.png" class="img1"></image>
 		    <text lines="1" class="info1">点击上传</text>
 		  </view>
-	    </view>
+	    </view> 
 		
 		<view class="title">
 		<u-form :model="model" :rules="rules" ref="uForm" :errorType="errorType">
@@ -160,6 +161,7 @@
 												self.isupload = true
 												let jsonr = JSON.parse(res.data)
 												self.url = jsonr.data.res.path
+												self.preview = jsonr.data.res.preview
 												self.$refs.uToast.show({
 													position:'top',
 													title:'视频上传成功'
@@ -344,7 +346,12 @@
 	  text-align: center;
 	  margin-top: 12rpx;
 	}
-	
+	.preview{
+		position: absolute;
+		width: 686rpx;
+		height: 386rpx;
+		border-radius: 16rpx;
+	}
 	.upload {
 	  z-index: 43;
 	  height: 386rpx;
@@ -470,6 +477,7 @@
 		padding: 16rpx 0 0 22rpx;
 	}
 	.main2 {
+	  z-index: 99;
 	  width: 120rpx;
 	  display: flex;
 	  flex-direction: column;
@@ -479,6 +487,10 @@
 	  z-index: 45;
 	  width: 120rpx;
 	  height: 92rpx;
+	}
+	.play {
+	  width: 120rpx;
+	  height: 120rpx;
 	}
 	.info1 {
 	  width: 116rpx;

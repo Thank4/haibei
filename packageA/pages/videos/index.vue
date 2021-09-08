@@ -8,9 +8,7 @@
 		<u-row gutter="16">
 			<u-col span="10">
 				<view class="tab">
-				
 					<u-tabs-swiper ref="tabs" :list="list" bg-color="#fff"  active-color="#3377FF" :current="current" @change="change" :is-scroll="false" swiperWidth="750">
-						
 					</u-tabs-swiper>
 				</view>
 			</u-col>
@@ -27,9 +25,12 @@
 					<view class="page-box">
 						
 						<view class="item" v-for="item in VideoList">
-							<view class="cover-img">
-								<!-- <u-image width="100%" height="361rpx" :src="item.preview"></u-image> -->
-								 <video  class="viedoBox"
+							<view class="cover-img" @click="play(item.url)">
+								<image :src="item.preview" class="preview"></image>
+								<view class="main2">
+											<image src="../../../static/icon/play_icon.png" class="play"></image>
+								</view>
+								<!-- <video  class="viedoBox"
 								      id="myVideo" 
 								      :src="item.url" 
 								      binderror="videoErrorCallback" 
@@ -37,7 +38,7 @@
 									  show-mute-btn
 								      bindenterpictureinpicture='bindVideoEnterPictureInPicture'
 								      bindleavepictureinpicture='bindVideoLeavePictureInPicture'
-								    ></video>
+								    ></video> -->
 							</view>
 							<view class="item-title">
 								{{item.name}}
@@ -78,57 +79,6 @@
 			</swiper-item>
 		</swiper>
 	
-			
-		<!-- <view class="tab-content" v-if="VideoList.length>0">
-			<view class="item" v-for="item in VideoList">
-				<view class="cover-img">
-					<!-- <u-image width="100%" height="361rpx" :src="item.preview"></u-image> -->
-				<!-- 	 <video  class="viedoBox"
-					      id="myVideo" 
-					      :src="item.url" 
-					      binderror="videoErrorCallback" 
-					      controls
-						  show-mute-btn
-					      bindenterpictureinpicture='bindVideoEnterPictureInPicture'
-					      bindleavepictureinpicture='bindVideoLeavePictureInPicture'
-					    ></video>
-				</view>
-				<view class="item-title">
-					{{item.name}}
-				</view>
-				<view class="coment">
-					<u-row gutter="16">
-								<u-col span="9">
-									<view class="num">
-										<u-icon name="../../../static/icon/read_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
-										{{item.play ? item.play:0}}
-										</view>
-								</u-col>
-								<!-- <u-col span="3">
-									<view>
-										<u-icon name="../../../static/icon/pl_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31">0</u-icon>
-									</view>
-								</u-col> -->
-						<!-- 		<u-col span="3">
-									<view class="num">
-										<u-icon name="../../../static/icon/dz_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
-										{{item.likes ? item.like : 0 }}</view>
-								</u-col>
-							</u-row>
-				</view>
-			</view>
-		    <u-loadmore :status="status" />
-		</view>
-		<view v-else>
-			
-			<u-empty  
-			margin-top="300"
-			icon-size="400rpx"
-			text="该分类下没有视频"  
-			src="../../../static/icon/emptyVideo_icon.png">
-			<u-button slot="bottom" type="primary" size="mini" @click="uploadVideo()">上传视频</u-button>
-			</u-empty>
-		</view> -->
 		
 		 <!-- 原一二级分类 begin -->
 		 <u-popup v-model="show" mode="top">
@@ -319,6 +269,15 @@
 			confirm(){
 				this.show = false
 			},
+			play(data){
+				console.log(data)
+				this.$u.route({
+					url:"/packageA/pages/videos/play",
+					params:{
+						url:data
+					}
+				})
+			},
 			search(){
 				this.$u.route({
 					url: '/packageA/pages/videos/search',	
@@ -360,6 +319,23 @@
 		height: calc(100vh - var(--window-top));
 		width: 100%;
 	}
+	.preview{
+		position: absolute;
+		width: 686rpx;
+		height: 386rpx;
+		border-radius: 16rpx;
+	}
+	.main2 {
+	  z-index: 99;
+	  width: 120rpx;
+	  display: flex;
+	  flex-direction: column;
+	  padding-bottom: 108rpx;
+	}
+	.play {
+	  width: 120rpx;
+	  height: 120rpx;
+	}
 	.swiper-box {
 		flex: 1;
 	}
@@ -380,8 +356,16 @@
 		vertical-align: top;
 	}
 	.cover-img{
-		width: 677rpx;
-		height: 360rpx;
+		height: 386rpx;
+		border-radius: 16rpx;
+		background-color: rgba(221,221,221,1);
+		align-self: center;
+		margin-top: 20rpx;
+		width: 686rpx;
+		justify-content: flex-end;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
 	}
 	.item-title{
 		margin: 34rpx 0 30rpx 0;
