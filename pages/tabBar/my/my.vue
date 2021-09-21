@@ -1,98 +1,76 @@
 <template>
 	<view class="wrap">
-	<view class="bg">
-		<u-image width="100%" height="330rpx" src="/static/img/my_bg.png"></u-image>
-	</view>
-	
-	<template v-if="vuex_hasLogin">
-		<view class="user">
-			<u-row gutter="16">
-						<u-col span="3">
-							<view class="avatar">
-								<u-avatar  src="../../../static/img/avator.png"></u-avatar>
-							</view>
-						</u-col>
-						<u-col span="6">
-							<view class="userinfo">
-								<view class="username">默认昵称</view>
-								<view class="phone">{{vuex_user.phone}}</view>
-							</view>
-						</u-col>
-						<u-col span="3">
-							<u-button shape="circle" :custom-style="btnStyle1" @click="logout">退出</u-button>
-						</u-col>
-					</u-row>
-					</view>
-					<view class="list">
-						
-					<u-cell-group>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item  title="账号管理" @click="account" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/zhgl_icon.png"></u-image>
-							</u-cell-item>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item title="客户信息" @click="customer" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/khxx_icon.png"></u-image>
-							</u-cell-item>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item title="定制需求" @click="needs" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/dzxq_icon.png"></u-image>
-							</u-cell-item>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item title="视频库" @click="videos" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/spk_icon.png"></u-image>
-							</u-cell-item>
-					</u-cell-group>
-					
-					</view>
-	</template>
+		<view class="bg u-abso"></view>
+		<view class="userinfo u-flex">
+			<view class="avatar"><u-avatar src="" size="128"></u-avatar></view>
+			<view class="info">
+				<view class="phone">15151513445</view>
+				<view class="isvip">年费会员</view>
+			</view>
+		</view>
 		
-	<template v-else>
-		<view class="user">
-			<u-row gutter="16">
-						<u-col span="3">
-							<view class="avatar">
-								<u-avatar  src="../../../static/img/avator.png"></u-avatar>
-							</view>
-						</u-col>
-						<u-col span="5">
-							<view class="userinfo">
-								<view class="username"></view>
-								<view class="phone"></view>
-							</view>
-						</u-col>
-						<u-col span="4">
-							<u-button  shape="circle" :custom-style="btnStyle2" @click="login">注册/登录</u-button>
-						</u-col>
-					</u-row>
-					</view>
-					<view class="list">
-						
-					<u-cell-group>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item  title="账号管理" @click="account" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/zhgl_icon.png"></u-image>
-							</u-cell-item>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item title="客户信息" @click="customer" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/khxx_icon.png"></u-image>
-							</u-cell-item>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item title="定制需求" @click="needs" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/dzxq_icon.png"></u-image>
-							</u-cell-item>
-							<u-gap height="32" bg-color="#F4F5F6"></u-gap>
-							<u-cell-item title="视频库" @click="videos" :title-style="{'margin-left': '38rpx','font-size':'30rpx'}" bgColor="none">
-								<u-image width="41" height="39" slot="icon" src="/static/icon/spk_icon.png"></u-image>
-							</u-cell-item>
-					</u-cell-group>
-					</view>
-	</template>
-	<u-modal 
-	v-model="modalShow"
-	show-cancel-button="取消"
-	 @confirm = "clearLogin" 
-	content="确认退出？"></u-modal>
+		
+		<view class="all">
+				<view class="total">5000</view><view class="all-text">总收益（元）</view>
+				<u-button type="primary" shape="circle" :customStyle="txBtn" @click="tx">提现</u-button>
+			</view>
+		<view class="other u-flex">
+			<view class="u-flex-1">
+				<view class="num">0</view>
+				<view class="num-text">今日收益（元）</view>
+			</view>
+			<view class="u-flex-1">
+				<view class="num">3000</view>
+				<view class="num-text">当前余额（元）</view>
+			</view>
+			<view class="u-flex-1">
+				<view class="num">2000</view>
+				<view class="num-text">冻结金额（元）</view>
+			</view>
+			<view class="u-flex-1">
+				<view class="num">2000</view>
+				<view class="num-text">累计提现（元）</view>
+			</view>
+			
+		</view>
+		
+		<template v-if="vuex_hasLogin">
+		<view class="cellGroup">
+			<u-cell-group :border="false">
+					<u-cell-item title="我的钱包" :titleStyle="titleStyle" @click="wallet">
+						<u-icon slot="icon" name="../../../static/icon/wallet_icon.png" size="48" :customStyle="iconStyle"></u-icon>
+					</u-cell-item>
+					<u-cell-item title="套餐信息" :titleStyle="titleStyle" @click="packages">
+						<u-icon slot="icon" name="../../../static/icon/package_icon.png" size="48" :customStyle="iconStyle"></u-icon>
+					</u-cell-item>
+					<u-cell-item title="邀请好友" :titleStyle="titleStyle" @click="share">
+						<u-icon slot="icon" name="../../../static/icon/share_icon.png" size="48" :customStyle="iconStyle"></u-icon>
+					</u-cell-item>
+					<u-cell-item title="客户信息" :titleStyle="titleStyle" @click="customer">
+						<u-icon slot="icon" name="../../../static/icon/customer_icon.png" size="48" :customStyle="iconStyle"></u-icon>
+					</u-cell-item>
+					<u-cell-item title="定制需求" :titleStyle="titleStyle" @click="needs">
+						<u-icon slot="icon" name="../../../static/icon/needs_icon.png" size="48" :customStyle="iconStyle"></u-icon>
+					</u-cell-item>
+					<u-cell-item title="视频库" :titleStyle="titleStyle" @click="videos">
+						<u-icon slot="icon" name="../../../static/icon/videos_icon.png" size="48" :customStyle="iconStyle"></u-icon>
+					</u-cell-item>
+					<u-cell-item title="账号与安全" :titleStyle="titleStyle" @click="account">
+						<u-icon slot="icon" name="../../../static/icon/account_icon.png" size="48" :customStyle="iconStyle"></u-icon>
+					</u-cell-item>
+			</u-cell-group>
+		</view>
+		<u-modal 
+		v-model="showTXTips" 
+		:show-title="false" 
+		content="使用提现功能添加一张支持提现的银行卡"
+		:show-confirm-button="true"
+		:show-cancel-button="true"
+		confirm-text="添加银行卡"
+		@confirm= "addCard"
+		></u-modal>
+		</template>
+		
 	</view>
 	
 </template>
@@ -101,6 +79,23 @@
 	export default {
 		data() {
 			return {
+				txBtn:{
+					margin:'24rpx 0 0 248rpx',
+					float:'left',
+					width:'120rpx',
+					height:'48rpx',
+					fontSize:'24rpx',
+					background:'rgba(242, 244, 255,0.1)',
+					color:'rgba(255, 255, 255, 0.5)'
+					
+				},
+				iconStyle:{
+					marginRight:"20rpx"
+				},
+				titleStyle:{
+					fontSize:'30rpx',
+					color:'rgba(51, 51, 51, 1)'
+				},
 				btnStyle1:{
 					width:'146rpx',
 					height:'63rpx',
@@ -115,7 +110,8 @@
 					margin:'40rpx 0',
 					background:'rgb(244,245,246)',
 				},
-				modalShow:false
+				modalShow:false,
+				showTXTips:true,
 			}
 		},
 		methods: {
@@ -156,6 +152,33 @@
 						})
 				}
 			},
+			wallet(){
+				if(!this.vuex_hasLogin){
+					this.$u.route('/packageA/pages/login/login');
+				}else{
+					this.$u.route({
+								url: '/packageE/pages/wallet/index',	
+						})
+				}
+			},
+			share(){
+				if(!this.vuex_hasLogin){
+					this.$u.route('/packageA/pages/login/login');
+				}else{
+					this.$u.route({
+								url: '/packageE/pages/share/index',	
+						})
+				}
+			},
+			packages(){
+				if(!this.vuex_hasLogin){
+					this.$u.route('/packageA/pages/login/login');
+				}else{
+					this.$u.route({
+								url: '/packageE/pages/packages/index',	
+						})
+				}
+			},
 			login(){
 				this.$u.route('/packageA/pages/login/login');
 			},
@@ -172,6 +195,14 @@
 				this.$u.route({
 					url:'/packageA/pages/login/login'
 				})
+			},
+			tx(){
+				
+			},
+			addCard(){
+				this.$u.route({
+					url:'/packageE/pages/card/add'
+				})
 			}
 		}
 	}
@@ -179,40 +210,82 @@
 
 <style>
 	page{
-		background-color:  rgb(244,245,246);
+		background: #F8F8F8;
 	}
-	
 	.bg{
-		position: absolute;
+		background: #4270FF;
 		width: 100%;
-		top: 0;
-		left: 0;
-	}
-	.user{
-		margin-top: 200rpx;
-		position: relative;
-	}
-	.avatar{
-		margin-left: 61rpx;
+		height: 338rpx;
+		z-index: -1;
 	}
 	.userinfo{
-		color: #fff;
+		z-index: 99;
+	}
+	.avatar{
+		margin: 40rpx 0 0 32rpx;
+	}
+	.info{
+		color: #FFFFFF;
+		z-index: 99;
 	}
 	.phone{
-		margin-top: 20rpx;
+		font-size: 28rpx;
+		margin: 56rpx 0 0 16rpx;
 	}
-	.list{
-		margin: 0 31rpx;
-	
+	.isvip{
+		font-size: 24rpx;
+		margin: 12rpx 0 0 16rpx;
 	}
-	.list ::v-deep .u-cell-item-box{
-			background-color: none; 
+	.wallet{
+		
 	}
-   .list ::v-deep .u-cell{ 
-	border-radius: 10rpx; 
-	background: #fff;
-	   /* 	border-radius: 50rpx !important; */
-	 }
-	
+	.all{
+		width: 686rpx;
+		height: 96rpx;
+		border-radius: 16rpx  16rpx  0px  0px  ;
+		margin:34rpx auto 0;
+		z-index: 99;
+	    background: #557EFF;
+		color: #FFFFFF;
+	}
+	.all-text{
+		color: #FFFFFF;
+		z-index: 99;
+	}
+	.total{
+		float:left;
+		margin:14rpx 0 16rpx 28rpx;
+		font-size: 48rpx;
+	}
+	.all-text{
+		float:left;
+		font-size: 24rpx;
+		margin:30rpx 0 32rpx 16rpx;
+	}
+	.other{
+		background: #FFFFFF;
+		border-radius: 0px  0px  16rpx  16rpx;
+		width: 686rpx;
+		height: 128rpx;
+		margin: 0 auto;
+	}
+	.num{
+		text-align: center;
+		color: rgba(51, 51, 51, 1);
+		font-size: 32rpx;
+		font-weight: 500;
+	}
+	.num-text{
+		text-align: center;
+		font-size: 22rpx;
+		margin-top: 16rpx;
+		color: rgba(153, 153, 153, 1);
+	}
+	.cellGroup{
+		background: #FFFFFF;
+		width: 686rpx;
+		margin: 20rpx auto 0;
+		border-radius: 16rpx;
+	}
 	
 </style>
