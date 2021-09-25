@@ -5,6 +5,7 @@
 		<u-search placeholder="输入关键词" v-model="keyword" :show-action="false" @focus="search"></u-search>
 		</view> -->
 		<!-- 搜索框功能 暂时隐藏 -->
+		<view class="bar">
 		<u-row gutter="16">
 			<u-col span="10">
 				<view class="tab">
@@ -16,29 +17,97 @@
 					<u-icon name="plus-circle" size="50rpx" :customStyle="{'margin-top':'18rpx'}" @click="uploadVideo"></u-icon>  <!-- old @click="showTab" -->
 			</u-col>
 		</u-row>
-		
+		</view>
 		<swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
 			
-			<swiper-item class="swiper-item" v-for="item in list">
+			<swiper-item class="swiper-item" v-for="(cate,index) in list">
 				<scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="reachBottom">
-					<!-- 网站数据 begin -->
-					<view class="page-box">
-						
+					<!-- 视频数据 begin -->
+					<view class="page-box" v-if="cate.id == 'Ali'">
+						<template v-if="is_set_ali.is_set_ali=='-1'">
+							<view class="form">
+							<u-form label-width="160rpx" :label-style ="{margin:'32rpx 34rpx','fontSzie':'32rpx','color':'#333333'}">
+								<u-form-item label="店铺ID" prop="shopid"><u-input v-model="form.shopid" placeholder="输入店铺ID"/></u-form-item>
+								<u-form-item label="店铺名" prop="name"><u-input v-model="form.name" placeholder="输入店铺名"/></u-form-item>
+							</u-form>
+							<view class="setAliId"><u-button type="primary" shape="circle" @click="setAli">授权</u-button></view>
+							</view>
+						</template>
+						<template v-else-if="is_set_ali.is_set_ali == '0' ">
+							<view class="status-img">
+								<u-image src="../../../static/img/dealing.png" width="186rpx" height="186rpx"></u-image>
+							</view>
+							<view class="status-text">授权成功</view>
+							<view class="status-tips">海贝将在一个工作日内完成数据采集 每周自动更新一次数据</view>
+						</template>
+						<template v-else-if="is_set_ali.is_set_ali == '1'">
+							<view class="item" v-for="item in AliVideos">
+								<view class="cover-img" @click="play(item.url)">
+									<image :src="item.preview" class="preview"></image>
+									<view class="main2">
+												<image src="../../../static/icon/play_icon.png" class="play"></image>
+									</view>
+								</view>
+								<view class="item-title">
+									{{item.name}}
+								</view>
+								<view class="coment">
+									<u-row gutter="16">
+												<u-col span="9">
+													<view class="num">
+														<u-icon name="../../../static/icon/read_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
+														{{item.play ? item.play:0}}
+														</view>
+												</u-col>
+												<!-- <u-col span="3">
+													<view>
+														<u-icon name="../../../static/icon/pl_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31">0</u-icon>
+													</view>
+												</u-col> -->
+												<u-col span="3">
+													<view class="num">
+														<u-icon name="../../../static/icon/dz_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
+														{{item.likes ? item.likes : 0 }}</view>
+												</u-col>
+											</u-row>
+								</view>
+							</view>
+							<view v-if="isEmpty">
+								<u-empty  
+								margin-top="300"
+								icon-size="400rpx"
+								text="该分类下没有视频"  
+								src="../../../static/icon/emptyVideo_icon.png">
+								<u-button slot="bottom" type="primary" size="mini" @click="uploadVideo()">上传视频</u-button>
+								</u-empty>
+							</view>
+						</template>
+						<template v-else-if="is_set_ali.is_set_ali == '2'">
+							<view class="form" v-if="sqForm">
+							<u-form label-width="160rpx" :label-style ="{margin:'32rpx 34rpx','fontSzie':'32rpx','color':'#333333'}">
+								<u-form-item label="店铺ID" prop="shopid"><u-input v-model="form.shopid" placeholder="输入店铺ID"/></u-form-item>
+								<u-form-item label="店铺名" prop="name"><u-input v-model="form.name" placeholder="输入店铺名"/></u-form-item>
+							</u-form>
+							<view class="setAliId"><u-button type="primary" shape="circle" @click="updateAli">授权</u-button></view>
+							</view>
+							<view v-if="!sqForm">
+							<view class="status-img">
+								<u-image src="../../../static/img/error.png" width="186rpx" height="186rpx"></u-image>
+							</view>
+							<view class="status-text">店铺ID错误</view>
+							<view class="status-tips">请检查您的国际站店铺ID 或名称</view>
+							<view class="sqBtn"><u-button @click="sqForm=true">重新授权</u-button> </view>
+							</view>
+						</template>
+					</view> 
+					
+					<view class="page-box" v-else>
 						<view class="item" v-for="item in VideoList">
 							<view class="cover-img" @click="play(item.url)">
 								<image :src="item.preview" class="preview"></image>
 								<view class="main2">
 											<image src="../../../static/icon/play_icon.png" class="play"></image>
 								</view>
-								<!-- <video  class="viedoBox"
-								      id="myVideo" 
-								      :src="item.url" 
-								      binderror="videoErrorCallback" 
-								      controls
-									  show-mute-btn
-								      bindenterpictureinpicture='bindVideoEnterPictureInPicture'
-								      bindleavepictureinpicture='bindVideoLeavePictureInPicture'
-								    ></video> -->
 							</view>
 							<view class="item-title">
 								{{item.name}}
@@ -64,7 +133,6 @@
 										</u-row>
 							</view>
 						</view>
-						
 						<view v-if="isEmpty">
 							<u-empty  
 							margin-top="300"
@@ -75,6 +143,7 @@
 							</u-empty>
 						</view>
 					</view>
+				    <!-- 视频数据 begin -->
 				</scroll-view>
 			</swiper-item>
 		</swiper>
@@ -138,6 +207,7 @@
 				</view>
 			</u-popup>
 		 	<!-- 原一二级分类 end-->
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -147,6 +217,7 @@
 			return{
 				level1:'', //当前选中一级分类
 				level2:'', //当前选中二级分类
+				
 				btnStyle:{
 					width:'197rpx',
 					height:'58rpx',
@@ -173,29 +244,37 @@
 					background:'#fff',
 					color:'rgb(56,147,244)'
 				},
-				list: [
-					{
+				list: [{
 						id: 0,
-						name: '全部'
-					}
-					],
-					VideoList:[],
-					parent_id:0,
-					category_id:0,
-					current: 0,
-					show:false,
-					currentPage:1,
-					pageSize:10,
-					status:'loadmore',
-					swiperCurrent:0,
-					isEmpty:false
-	
-
+						name: '全部',
+						}
+				],
+				VideoList:[],
+				parent_id:0,
+				category_id:0,
+				current: 0,
+				show:false,
+				currentPage:1,
+				pageSize:10,
+				status:'loadmore',
+				swiperCurrent:0,
+				isEmpty:false,
+				is_set_ali:{
+					
+				},
+				errorArray:['message','border-bottom'],	
+				form:{
+					name:'',
+					shopid:''
+				},
+				sqForm:false,
+				AliVideos:[]
 			}
 		},
 		onLoad(){
 			this.init()
 		},
+		
 		onReachBottom(){
 			if(this.status == 'nomore'){
 				return
@@ -217,6 +296,11 @@
 							})
 							
 						}
+						this.list.push({
+							id:'Ali',
+							name:'阿里国际'
+						})
+						console.log(this.list)
 					}
 				})
 				//第一次进入页面
@@ -251,14 +335,19 @@
                 })				
 			},
 			change(index) {
-				this.current = index;
+				this.swiperCurrent = index;
+				this.current = index
 				console.log(this.list[index])
-				this.parent_id = this.list[index]['id'] //这边其实获取category_id才是要传的parent_id ,而category_id 暂时都传0
-				//切换分类的话，VideoList重置,当前页面数要置成第一页,loading修改成more
-				this.VideoList = []
-				this.currentPage = 1
-				this.status = 'loadmore'
-				this.getVideoList(this.parent_id,this.category_id,this.currentPage,this.pageSize)
+				if(this.list[index]['id']=='Ali'){ //类型为国际站
+					//this.getAliSite()
+				}else{
+					this.parent_id = this.list[index]['id'] //这边其实获取category_id才是要传的parent_id ,而category_id 暂时都传0
+					//切换分类的话，VideoList重置,当前页面数要置成第一页,loading修改成more
+					this.VideoList = []
+					this.currentPage = 1
+					this.status = 'loadmore'
+					this.getVideoList(this.parent_id,this.category_id,this.currentPage,this.pageSize)
+				}
 			},
 			showTab(){
 				this.show = true
@@ -297,20 +386,88 @@
 				this.$refs.tabs.setFinishCurrent(current);
 				this.swiperCurrent = current;
 				this.current = current
-				this.parent_id = this.list[current]['id']
-				this.getVideoList(this.parent_id,this.category_id,this.currentPage,this.pageSize)
+				console.log(this.list[current]);
+				if(this.list[current]['id'] == 'Ali'){//分类是阿里国际
+				    this.getAliSite()
+					
+				}else{
+					this.parent_id = this.list[current]['id']
+					this.getVideoList(this.parent_id,this.category_id,this.currentPage,this.pageSize)
+				}
+				
 			},
+			//查询是否设置国际站点
+			getAliSite(){
+				this.$u.api.isSetAli().then(res =>{
+					this.is_set_ali = res.data
+				})
+				if(this.is_set_ali == 1){
+					this.$u.getAliVideoList().then(res =>{
+						this.AliVideos = res.data.data
+					})
+				}
+			},
+			setAli(){
+				if(!this.form.shopid){
+					this.$refs.uToast.show({
+							title: '请填写店铺ID',
+					})
+					return
+				}
+				if(!this.form.name){
+					this.$refs.uToast.show({
+							title: '请填写店铺名称',
+					})
+					return
+				}
+				this.$u.api.setAliId(this.form).then(res=>{
+					if(res.code == 200){
+						this.is_set_ali.is_set_ali = 0
+					}
+				})
+				console.log(this.form.name)
+				console.log(this.form.shopid)
+			},
+			updateAli(){
+				if(!this.form.shopid){
+					this.$refs.uToast.show({
+							title: '请填写店铺ID',
+					})
+					return
+				}
+				if(!this.form.name){
+					this.$refs.uToast.show({
+							title: '请填写店铺名称',
+					})
+					return
+				}
+				this.$u.api.updateAliId({
+					name:this.form.name,
+					shopid:this.form.shopid,
+					id:this.is_set_ali.id
+				}).then(res=>{
+					if(res.code == 200){
+						this.is_set_ali.is_set_ali = 0
+					}
+				})
+			}
 
 		}
 	}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+	page{
+		background: #F8F8F8;
+	}
 	.search{
 		margin: 50rpx 50rpx 40rpx 50rpx;
 	}
+	.bar{
+		background: #FFFFFF;
+	}
 	.tab{
-		margin-left: 30rpx;
+		padding-left: 30rpx;
 		width: 600rpx;
 	}
 	.wrap {
@@ -385,5 +542,34 @@
 	.viedoBox{
 		width:100%; 
 		height:361rpx; 
+	}
+	.form{
+		background: #FFFFFF;
+	}
+	.setAliId{
+		width: 630rpx;
+		margin: 72rpx auto;
+	}
+	.status-img{
+		width: 186rpx;
+		height: 186rpx;
+		margin: 100rpx auto 0;
+	}
+	.status-text{
+		color: #000000;
+		font-size: 40rpx;
+		text-align: center;
+		margin-top: 50rpx;
+	}
+	.status-tips{
+		font-size: 28rpx;
+		color: #888888;
+		margin:30rpx auto 0;
+		text-align: center;
+		width: 448rpx;
+	}
+	.sqBtn{
+		width: 400rpx;
+		margin: 8rpx auto 0;
 	}
 </style>

@@ -51,6 +51,7 @@
 				tags_en:'',
 				type:'video',
 				ip_id:'',
+				package_id:''
 			}
 		},
 		onLoad(data){
@@ -61,9 +62,12 @@
 			this.file_id = data.file_id
 			this.preview = data.preview
 			this.ip_id = data.ip_id
+			data.package_id ? this.package_id = data.package_id :this.package_id  = 0
+			
 			console.log(this.file_id)
 			console.log(this.preview)
 			console.log(this.ip_id)
+			console.log(this.package_id)
 			
 			
 		},
@@ -127,69 +131,96 @@
 					tags_en:this.tags_en,
 					type:'video',
 					ip_id:this.ip_id,
-					openId:this.vuex_openId
+					openId:this.vuex_openId,
+					package_id:this.package_id
 				}).then(res =>{
 					if(res.code ==200){
-						switch(res.data.status){
+						console.log(res.data.status,'查看状态')
+						switch(Number(res.data.status)){
 							case 1: //未付款,
 							//TODO 微信小程序支付
-							console.log(res.data.prepay.timeStamp)
+							/***首次进来需要付费***/
+							uni.setStorageSync('order_res', res.data);
+							this.$u.route({
+								url:'/packageE/pages/packages/pay',
+								params:{
+									file_id:this.file_id,
+									title:this.title,
+									desc:this.desc,
+									tags:this.tags,
+									title_en:this.title_en,
+									desc_en:this.desc_en,
+									tags_en:this.tags_en,
+									type:'video',
+									ip_id:this.ip_id,
+									openId:this.vuex_openId,
+									package_id:this.package_id,
+								}
+							})
+							console.log(res.data)
+							// uni.requestPayment({
+							//     provider: 'wxpay',
+							// 	timeStamp:res.data.prepay.timeStamp,
+							// 	nonceStr:res.data.prepay.nonceStr,
+							// 	package: res.data.prepay.package,
+							// 	signType: res.data.prepay.signType,
+							// 	paySign: res.data.prepay.paySign,
+							//     success: function (response) {
+							//         //支付成功回调,并跳转页面
+							// 		self.$u.api.setShareHistory({
+							// 			order_no:res.data.order_no
+							// 		}).then(res =>{
+							// 			if(res.code == 200){
+							// 				//TODO 跳转支付成功页面，提示
+							// 				self.$u.route('/packageB/pages/distribution/paySuccess')
+							// 			}
+							// 		})		
+							//     },
+							//     fail: function (err) {
+							// 		console.log('失败回调订单号',res.data.order_no)
+							// 		self.$u.api.cancelPay({
+							// 			'order_no':res.data.order_no
+							// 		}).then(res => {
+							// 			//TODO,支付失败
+							// 			self.$refs.uToast.show({
+							// 				title: '支付失败,请重试',
+							// 				type: 'error',
 							
-							uni.requestPayment({
-							    provider: 'wxpay',
-								timeStamp:res.data.prepay.timeStamp,
-								nonceStr:res.data.prepay.nonceStr,
-								package: res.data.prepay.package,
-								signType: res.data.prepay.signType,
-								paySign: res.data.prepay.paySign,
-							    success: function (response) {
-							        //支付成功回调,并跳转页面
-									self.$u.api.setShareHistory({
-										order_no:res.data.order_no
-									}).then(res =>{
-										if(res.code == 200){
-											//TODO 跳转支付成功页面，提示
-											self.$u.route('/packageB/pages/distribution/paySuccess')
-										}
-									})
-							    },
-							    fail: function (err) {
-									console.log('失败回调订单号',res.data.order_no)
-									self.$u.api.cancelPay({
-										'order_no':res.data.order_no
-									}).then(res => {
-										//TODO,支付失败
-										self.$refs.uToast.show({
-											title: '支付失败,请重试',
-											type: 'error',
-							
-										})
-									})
-							        console.log('fail:' + JSON.stringify(err));
-							    }
-							});
+							// 			})
+							// 		})
+							//         console.log('fail:' + JSON.stringify(err));
+							//     }
+							// });
+							/***  end ***/	
 							break;
 							case 2: //正常分发
+							console.log(res)
 							this.$refs.uToast.show({
-								title: 'ip被封或者是选择不存在的ip',
-								type: 'success',
+								title: res.data.desc,
+								isTab:true,
+								url:'/pages/tabBar/distribute/distribute'
 																						
 							})
 							break;
 							case 3: //ip被封或不存在
 							this.$refs.uToast.show({
-								title: 'ip被封或者是选择不存在的ip',
+								title: res.data.desc,
 								type: 'error',
 																						
 							})
 							break;
 							case 4: //调用付款fail
 							this.$refs.uToast.show({
-								title: '调起付款失败',
+								title: res.data.desc,
 								type: 'error',
 																						
 							})
 							break;
+							case 5: //未到PC端进行配置
+							this.$refs.uToast.show({
+								title: res.data.desc,
+								type: 'error',
+							})
 							default:
 							console.log(res)
 								

@@ -34,6 +34,24 @@ let getVideoDataUrl = '/getVideoData' //根据视频id和平台获取数据分�
 let setShareHistoryUrl = '/setShareHistory' //支付成功回调函数
 let cancelPayUrl = '/cancelPay'      //支付失败回调函数
 let getUserAllUrl = '/getUserAll'    //获取客户信息
+let getBankListUrl = '/getBankList'  //获取银行卡列表
+let setBankDataUrl = '/setBankData'  //设置银行卡
+let getProfitDateUrl = '/getProfitDate' //我的钱包
+let getInviterUrl = '/getInviter' //我的邀请
+let getShareListUrl = '/getShareList' //我邀请的人
+let isSetAliUrl = '/isSetAli'   //是否设置阿里国际站点
+let setAliIdUrl = '/setAliId' //设置阿里国际站点
+let updateAliIdUrl = '/updateAliId' //更新阿里国际站点
+let getAliVideoListUrl = '/getAliVideoList' //获取国际站视频
+let setIncomeUrl = '/setIncome' //申请提现
+let getIncomeListUrl = '/getIncomeList' //提现记录 
+let getProfitListUrl = '/getProfitList' //我的资产7天收益
+let getMerPackageListUrl = '/getMerPackageList' //获取购买套餐包列表
+let getPackageAllUrl = '/getPackageAll' //获取全部在售的套餐包
+let getPackageInfoUrl = '/getPackageInfo' //根据套餐id获取套餐明细
+let buyPackageUrl = '/buyPackage' //购买套餐包
+let getVipLeftDayUrl ='/getVipLeftDay'//会员年费倒计时
+let getShareDayListUrl = '/getShareDayList'  //获取每日用户分发条数列表
 // 此处第二个参数vm，就是我们在页面使用的this，你可以通过vm获取vuex等操作，更多内容详见uView对拦截器的介绍部分：
 // https://uviewui.com/js/http.html#%E4%BD%95%E8%B0%93%E8%AF%B7%E6%B1%82%E6%8B%A6%E6%88%AA%EF%BC%9F
 const install = (Vue, vm) => {
@@ -101,6 +119,42 @@ const install = (Vue, vm) => {
 	let cancelPay = (params = {}) =>vm.$u.post(cancelPayUrl,params)
 	//获取客户信息
 	let getUserAll = (params = {}) =>vm.$u.get(getUserAllUrl,params) 
+	//获取银行卡列表
+	let getBankList = (params = {}) =>vm.$u.get(getBankListUrl,params) 
+	//设置银行卡
+	let setBankData = (params = {}) =>vm.$u.post(setBankDataUrl,params) 
+	//我的钱包
+	let getProfitDate = (params = {}) =>vm.$u.get(getProfitDateUrl,params) 
+	//我的邀请
+	let getInviter = (params = {}) =>vm.$u.get(getInviterUrl,params) 
+	//我邀请的人
+	let getShareList = (params = {}) =>vm.$u.get(getShareListUrl,params) 
+	//是否设置阿里国际站点
+	let isSetAli = (params = {}) =>vm.$u.get(isSetAliUrl,params) 
+	//设置阿里国际站点
+	let setAliId = (params = {}) =>vm.$u.post(setAliIdUrl,params) 
+	//更新阿里国际站点
+	let updateAliId =  (params = {}) =>vm.$u.post(updateAliIdUrl,params) 
+	//获取国际站视频
+	let getAliVideoList = (params = {}) =>vm.$u.post(setAliIdUrl,params) 
+	//申请提现
+	let setIncome = (params = {}) =>vm.$u.post(setIncomeUrl,params) 
+	//提现记录
+	let getIncomeList = (params = {}) =>vm.$u.get(getIncomeListUrl,params) 
+	 //我的资产7天收益
+	let getProfitList = (params = {}) =>vm.$u.get(getProfitListUrl,params) 
+	//获取已购套餐包列表
+	let getMerPackageList = (params = {}) =>vm.$u.get(getMerPackageListUrl,params) 
+	//获取全部在售套餐包列表
+	let getPackageAll = (params = {}) =>vm.$u.get(getPackageAllUrl,params) 
+	//根据ID查明细
+	let getPackageInfo = (params = {}) =>vm.$u.get(getPackageInfoUrl,params) 
+	//购买套餐包
+	let buyPackage = (params = {}) =>vm.$u.post(buyPackageUrl,params) 
+	//会员年费倒计时
+	let getVipLeftDay = (params = {}) =>vm.$u.get(getVipLeftDayUrl,params) 
+	//获取每日用户分发条数列表
+	let getShareDayList =  (params = {}) =>vm.$u.get(getShareDayListUrl,params) 
 	
 	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
@@ -136,7 +190,25 @@ const install = (Vue, vm) => {
 		getVideoData,
 		setShareHistory,
 		cancelPay,
-		getUserAll
+		getUserAll,
+		getBankList,
+		setBankData,
+		getProfitDate,
+		getInviter,
+		getShareList,
+		isSetAli,
+		setAliId,
+		updateAliId,
+		getAliVideoList,
+		setIncome,
+		getIncomeList,
+		getProfitList,
+		getMerPackageList,
+		getPackageAll,
+		getPackageInfo,
+		buyPackage,
+		getVipLeftDay,
+		getShareDayList
 		};
 }
 

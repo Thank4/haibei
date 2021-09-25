@@ -16,7 +16,7 @@
 							<u-col span="9">
 								<view class="num">
 									<u-icon name="../../../static/icon/read_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
-									{{item.play ? item.play:0}}
+									{{item.watch ? item.watch:0}}
 									</view>
 							</u-col>
 							<!-- <u-col span="3">
@@ -27,7 +27,7 @@
 							<u-col span="3">
 								<view class="num">
 									<u-icon name="../../../static/icon/dz_icon.png" :custom-style="{'margin-right':'14rpx'}" width="37" height="31"></u-icon>
-									{{item.likes ? item.likes : 0 }}</view>
+									{{item.like ? item.like : 0 }}</view>
 							</u-col>
 						</u-row>
 			</view>

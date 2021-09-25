@@ -3,7 +3,7 @@
 		<view class="header">
 			<u-row gutter="16">
 						<u-col span="6">
-							<view class="total">5000</view>
+							<view class="total">{{wallet.money+wallet.frozen_money+wallet.cash_money}}</view>
 							<u-icon 
 							name="../../../static/icon/tips_icon.png"
 							size="32" 
@@ -20,19 +20,20 @@
 								type="primary"
 								shape="circle"
 								:customStyle="txBtn"
+								@click="tx"
 								>提现</u-button>
 								</view>
-							<view class="txlog">查看提现记录 ></view>
+							<view class="txlog" @click="txlog">查看提现记录 ></view>
 						</u-col>
 			</u-row>
 			<view class="detail">
 			<u-row>
 				<u-col span="4">
-					<view class="num">5000</view>
+					<view class="num">{{wallet.money}}</view>
 					<view class="num-text">账户余额(元)</view>
 				</u-col>
 				<u-col span="4">
-					<view class="num">2000</view>
+					<view class="num">{{wallet.frozen_money}}</view>
 					<u-icon
 					name="../../../static/icon/tips_icon.png"
 					size="32" 
@@ -44,21 +45,20 @@
 					></u-icon>
 				</u-col>
 				<u-col span="4">
-					<view class="num">2000</view>
+					<view class="num">{{wallet.cash_money}}</view>
 					<view class="num-text">累积提现(元)</view>
 				</u-col>
 			</u-row>
 			</view>
 			
 		</view>
-	     <view class="today">今日收益: 0</view>
+	     <view class="today">今日收益: {{wallet.profit_today}}</view>
 		 <view>
 			 <view class="charts-box">
-			  <qiun-data-charts
-			     type="tline"
+			   <qiun-data-charts
+			     type="line"
 			     :chartData="chartData"
-			 	:inScrollView="true"
-			 	:opts="opts1"
+				 :opts="opts"
 			     background="none"
 			   />
 			 </view>
@@ -75,7 +75,64 @@
 					fontSize:'24rpx',
 					background:'rgba(242, 244, 255,0.1)',
 					color:'rgba(255, 255, 255, 0.5)'
-				}
+				},
+				wallet:{},
+				chartData:{
+				  "categories": [
+				      ],
+				  "series": [
+				         {
+				             "name": "收益",
+				             "data": [
+				             ]
+				         }
+				     ],
+				},
+				opts:{
+					"legend": {
+						"position": "top",
+					}
+				},
+				
+			}
+		},
+		onLoad(){
+			this.getWallt()	
+		},
+		methods:{
+			getWallt(){
+				this.$u.api.getProfitDate().then(res =>{
+					this.wallet = res.data
+				})
+				this.$u.api.getProfitList().then(res =>{
+					let self = this
+					if(res.code ==200&&res.data.length>0){
+						res.data.map(function(item){
+							self.chartData.categories.push(item.data)
+							self.chartData.series[0]['data'].push(item.money)
+						})
+					}
+				})
+			},
+			tx(){
+				this.$u.api.getBankList().then(res =>{
+					console.log(res)
+					if(res.data.length==0){
+						this.showTXTips = true
+					}else{
+						this.$u.route({
+							url:'/packageE/pages/clause/apply',
+							params:{
+								total:this.wallet.money
+							}
+						})
+					}
+				})
+			},
+			txlog(){
+				this.$u.route({
+					url:'/packageE/pages/log/index',
+				})
 			}
 		}
 	}

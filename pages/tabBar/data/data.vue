@@ -143,19 +143,18 @@
 			</view>
 		</view>	
 		<!--YouTube 榜单 end -->
-		
 		<!--facebook 榜单 begin -->
-		<view class="rank" v-if="rankData.facebook>0">
+		<view class="rank" v-if="rankData.Facebook.length>0">
 			<u-cell-group :border="false">
-							<u-cell-item  title="facebook热榜" :arrow="false" :border-bottom="false">
+							<u-cell-item  title="Facebook热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/facebook_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
-								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('facebook')">更多</u-button>
+								<u-button slot="right-icon"  size="mini" shape="circle" type="default" @click="more('Facebook')">更多</u-button>
 							</u-cell-item>
 						</u-cell-group>
 			<view>
 				<u-row gutter="16">
 						<u-row gutter="16">
-							<u-col span="4" v-for="item in rankData.facebook.slice(0,3)">
+							<u-col span="4" v-for="item in rankData.Facebook.slice(0,3)">
 								<u-image :src="item.preview" width="200rpx" height="250rpx" border-radius="20rpx"></u-image>
 							</u-col>
 						</u-row>
@@ -167,7 +166,7 @@
 		
 		<!--Twitter 榜单 begin -->
 		
-		<view class="rank" v-if="rankData.Twitter >0"> 
+		<view class="rank" v-if="rankData.Twitter.length >0"> 
 			<u-cell-group :border="false">
 							<u-cell-item  title="Twitter热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/twitter_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
@@ -187,7 +186,7 @@
 		<!--Twitter 榜单 end -->
 		
 		<!--linkedin 榜单 begin -->
-		<view class="rank" v-if="rankData.LinkedIn >0">
+		<view class="rank" v-if="rankData.LinkedIn.length >0">
 			<u-cell-group :border="false">
 				<u-cell-item  title="LinkedIn热榜" :arrow="false" :border-bottom="false">
 					<u-icon slot="icon" name="../../../static/icon/linkedin_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
@@ -207,7 +206,7 @@
 		<!--linkedin 榜单 end -->
 		
 		<!--pinterest 榜单 begin -->
-		<view class="rank" v-if="rankData.Pinterest >0">
+		<view class="rank" v-if="rankData.Pinterest.length >0">
 			<u-cell-group :border="false">
 							<u-cell-item  title="Pinterest热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/pinterest_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
@@ -227,7 +226,7 @@
 		<!--pinterest 榜单 end -->
 		
 		<!--tiktok 榜单 begin -->
-		<view class="rank" v-if="rankData['Tik Tok'] >0">
+		<view class="rank" v-if="rankData['Tik Tok'].length >0">
 			<u-cell-group :border="false">
 							<u-cell-item  title="tiktok热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/tiktok_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
@@ -247,7 +246,7 @@
 		<!--tiktok 榜单 end -->
 		
 		<!--Instagram 榜单 begin -->
-		<view class="rank" v-if="rankData.Instagram >0">
+		<view class="rank" v-if="rankData.Instagram.length >0">
 			<u-cell-group :border="false">
 							<u-cell-item  title="Instagram热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/Instagram_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>
@@ -267,7 +266,7 @@
 		<!--Instagram 榜单 end -->
 		
 		<!--vimeo 榜单 begin -->
-		<view class="rank" v-if="rankData.Vimeo >0">
+		<view class="rank" v-if="rankData.Vimeo.length >0">
 			<u-cell-group :border="false">
 							<u-cell-item  title="Vimeo热榜" :arrow="false" :border-bottom="false">
 								<u-icon slot="icon" name="../../../static/icon/vimeo_icon.png" size="30" :custom-style="{'margin-right':'10rpx;'}"></u-icon>

@@ -152,7 +152,6 @@
 								price:res.data.ip_arr[i]['price'],
 								area:res.data.ip_arr[i]['area'],
 								text:res.data.ip_arr[i]['area'],
-								subText:res.data.ip_arr[i]['price'],
 							})
 							
 						}

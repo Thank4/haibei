@@ -10,64 +10,38 @@
 			<view class="now-price">¥ 980</view>
 		</view>
 		<view class="labelTitle">IP套餐包列表</view>
-		<view class="package-item u-flex">
-			<view class="package-img">套餐包</view>
-			<view class="info">
-				<view class="annualFee">固定套餐包</view>
-				<view class="num">1000条/100元</view>
-			</view>
-			<view class="status">
-				<view class="allowance">余量：300</view>
-				<view class="expireTime">2016-06-16 14:03</view>
-			</view>
-		</view>
-		<view class="progress u-flex">
-			<view class="u-flex-1"><u-line-progress active-color="#1890FF" :percent="50"></u-line-progress></view>
-			<view class="u-flex-1 buy">继续购买</view>
-		</view>
-		<u-gap height="16" bg-color="#F8F8F8"></u-gap>
-		<view class="package-item u-flex">
-			<view class="package-img">套餐包</view>
-			<view class="info">
-				<view class="annualFee">固定套餐包</view>
-				<view class="num">1000条/100元</view>
-			</view>
-			<view class="status">
-				<view class="allowance">余量：300</view>
-				<view class="expireTime">2016-06-16 14:03</view>
-			</view>
-		</view>
-		<view class="progress u-flex">
-			<view class="u-flex-1"><u-line-progress active-color="#52C41A" :percent="100"></u-line-progress></view>
-			<view class="u-flex-1 buy">继续购买</view>
-		</view>
-		<u-gap height="16" bg-color="#F8F8F8"></u-gap>
 		
-		<view class="labelTitle">IP套餐包列表</view>
-		<view class="packageInfo">
+		<view v-for="item in list">
+		<view class="package-item u-flex">
+			<view class="package-img">套餐包</view>
+			<view class="info">
+				<view class="annualFee">固定套餐包</view>
+				<view class="num">{{item.num}}条/{{item.price}}元</view>
+			</view>
+			<view class="status">
+				<view class="allowance">余量：{{item.left_num}}</view>
+				<view class="expireTime">{{item.create_at}}</view>
+			</view>
+		</view>
+		<view class="progress u-flex">
+			<view class="u-flex-1"><u-line-progress active-color="#1890FF" :percent="((item.num-item.left_num)/item.num)*100"></u-line-progress></view>
+			<view class="u-flex-1 buy" @click="buy">继续购买</view>
+		</view>
+		<u-gap height="16" bg-color="#F8F8F8"></u-gap>
+		</view>
+		
+		<view class="labelTitle">IP分享列表</view>
+		<view class="packageInfo" v-for="item in shareList">
 			<view class="u-flex package-header">
 				<view class="u-flex-1 u-text-left package-title">固定套餐包</view>
-				<view class="u-flex-1 u-text-right">2000/200元</view>
-			</view>
-			<view class="u-flex info-item">
-				<view class="u-flex-1 u-text-left">使 用 IP</view>
-				<view class="u-flex-1 u-text-right">2000/200元</view>
 			</view>
 			<view class="u-flex info-item">
 				<view class="u-flex-1 u-text-left">用 量</view>
-				<view class="u-flex-1 u-text-right">2000/200元</view>
-			</view>
-			<view class="u-flex info-item">
-				<view class="u-flex-1 u-text-left">余 量</view>
-				<view class="u-flex-1 u-text-right">2000/200元</view>
-			</view>
-			<view class="u-flex info-item">
-				<view class="u-flex-1 u-text-left">分发类型</view>
-				<view class="u-flex-1 u-text-right">2000/200元</view>
+				<view class="u-flex-1 u-text-right">{{item.share_num}}/条</view>
 			</view>
 			<view class="u-flex info-item">
 				<view class="u-flex-1 u-text-left">分发时间</view>
-				<view class="u-flex-1 u-text-right">2000/200元</view>
+				<view class="u-flex-1 u-text-right">{{item.day}}</view>
 			</view>
 		</view>
 		
@@ -76,6 +50,38 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				list:[],
+				dq_time:'',
+				shareList:[]
+			}
+		},
+		onLoad(){
+			this.init()
+		},
+		methods:{
+			init(){
+				this.$u.api.getMerPackageList().then(res =>{
+					if(res.code == 200){
+						this.list = res.data.data
+					}
+				})
+				this.$u.api.getVipLeftDay().then(res =>{
+					this.dq_time = this.$u.timeStamp(res.data.emd_time)
+				})
+				this.$u.api.getShareDayList().then(res =>{
+					this.shareList =res.data.data
+				})
+			},
+			buy(){
+				this.$u.route({
+					url:'/packageE/pages/packages/buy'
+				})
+			}
+		}
+	}
 </script>
 
 <style>

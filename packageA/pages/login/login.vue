@@ -36,6 +36,7 @@
 				seconds: 60,
 				errorArray:['message','border-bottom'],
 				disabled:true,
+				mer_id:'',
 				form:{
 					phone:'',
 					code:''
@@ -76,7 +77,11 @@
 			}
 		},
 		methods:{
-			onLoad(){
+			onLoad(data){
+				console.log(data)
+				if(data.mer_id){
+					this.mer_id = data.mer_id
+				}
 				
 			},
 			login(){
@@ -85,7 +90,8 @@
 									console.log('验证通过');
 									this.$u.api.login({
 										phone:this.form.phone,
-										code:this.form.code
+										code:this.form.code,
+										mer_id:this.mer_id
 									}).then(res=>{
 										if(res.code==200){
 											//登录成功,修改登录状态

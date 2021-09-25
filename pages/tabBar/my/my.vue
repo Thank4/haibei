@@ -4,31 +4,31 @@
 		<view class="userinfo u-flex">
 			<view class="avatar"><u-avatar src="" size="128"></u-avatar></view>
 			<view class="info">
-				<view class="phone">15151513445</view>
-				<view class="isvip">年费会员</view>
+				<view class="phone">{{vuex_user.name}}</view>
+				<view class="isvip">{{vuex_user.is_vip ? '年费会员': ''}}</view>
 			</view>
 		</view>
 		
 		
 		<view class="all">
-				<view class="total">5000</view><view class="all-text">总收益（元）</view>
+				<view class="total">{{wallet.money+wallet.frozen_money+wallet.cash_money}}</view><view class="all-text">总收益（元）</view>
 				<u-button type="primary" shape="circle" :customStyle="txBtn" @click="tx">提现</u-button>
 			</view>
 		<view class="other u-flex">
 			<view class="u-flex-1">
-				<view class="num">0</view>
+				<view class="num">{{wallet.profit_today}}</view>
 				<view class="num-text">今日收益（元）</view>
 			</view>
 			<view class="u-flex-1">
-				<view class="num">3000</view>
+				<view class="num">{{wallet.money}}</view>
 				<view class="num-text">当前余额（元）</view>
 			</view>
 			<view class="u-flex-1">
-				<view class="num">2000</view>
+				<view class="num">{{wallet.frozen_money}}</view>
 				<view class="num-text">冻结金额（元）</view>
 			</view>
 			<view class="u-flex-1">
-				<view class="num">2000</view>
+				<view class="num">{{wallet.cash_money}}</view>
 				<view class="num-text">累计提现（元）</view>
 			</view>
 			
@@ -37,7 +37,7 @@
 		<template v-if="vuex_hasLogin">
 		<view class="cellGroup">
 			<u-cell-group :border="false">
-					<u-cell-item title="我的钱包" :titleStyle="titleStyle" @click="wallet">
+					<u-cell-item title="我的钱包" :titleStyle="titleStyle" @click="gowallet">
 						<u-icon slot="icon" name="../../../static/icon/wallet_icon.png" size="48" :customStyle="iconStyle"></u-icon>
 					</u-cell-item>
 					<u-cell-item title="套餐信息" :titleStyle="titleStyle" @click="packages">
@@ -80,7 +80,7 @@
 		data() {
 			return {
 				txBtn:{
-					margin:'24rpx 0 0 248rpx',
+					margin:'24rpx 0 0 200rpx',
 					float:'left',
 					width:'120rpx',
 					height:'48rpx',
@@ -111,10 +111,20 @@
 					background:'rgb(244,245,246)',
 				},
 				modalShow:false,
-				showTXTips:true,
+				showTXTips:false,
+				wallet:{}
 			}
 		},
+		onShow(){
+			this.getWallt()
+		},
 		methods: {
+			getWallt(){
+				this.$u.api.getProfitDate().then(res =>{
+					this.wallet = res.data
+				})
+				
+			},
 			account(){
 				if(!this.vuex_hasLogin){
 					this.$u.route('/packageA/pages/login/login');
@@ -152,7 +162,7 @@
 						})
 				}
 			},
-			wallet(){
+			gowallet(){
 				if(!this.vuex_hasLogin){
 					this.$u.route('/packageA/pages/login/login');
 				}else{
@@ -197,7 +207,19 @@
 				})
 			},
 			tx(){
-				
+				this.$u.api.getBankList().then(res =>{
+					console.log(res)
+					if(res.data.length==0){
+						this.showTXTips = true
+					}else{
+						this.$u.route({
+							url:'/packageE/pages/clause/apply',
+							params:{
+								total:this.wallet.money
+							}
+						})
+					}
+				})
 			},
 			addCard(){
 				this.$u.route({

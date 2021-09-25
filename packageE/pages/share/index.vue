@@ -6,7 +6,7 @@
 		<view class="invitation"  @click="myInvitation">我邀请的人 >></view>
 		<view class="btnGroup">
 			<u-button type="primary" shape="circle" :customStyle="copyBtn">复制邀请链接</u-button>
-			<u-button type="primary" shape="circle" :customStyle="shareBtn">分享邀请</u-button>
+			<u-button type="primary" shape="circle" :customStyle="shareBtn" open-type="share">分享邀请</u-button>
 		</view>
 	</view>
 </template>
@@ -15,11 +15,7 @@
 	export default{
 		data(){
 			return{
-				list: [{
-										image: 'https://static.seabeek.cn/images/admin/poster.webp',
-										title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-									}
-				],
+				list: [],
 				copyBtn:{
 					width:'316rpx',
 					background:'none',
@@ -35,10 +31,31 @@
 					height:'100rpx',
 					lineHeight:'100rpx',
 					display:'inline-block'
-				}
+				},
+				data:{}
 			}
 		},
+		onLoad(){
+			this.init()
+		},
+		onShareAppMessage(){
+			return {
+			      title: '海贝，让内容传播无国界',
+			      path: '/packageA/pages/login/login?mer_id='+this.vuex_user.id,
+				  imageUrl:'https://static.seabeek.cn/weapp/share.png',
+				  bgImgUrl:'https://static.seabeek.cn/weapp/share.png'
+			    }
+		},
 	    methods:{
+			init(){
+				this.$u.api.getInviter().then(res =>{
+					this.data = res.data
+					this.list = [{
+						image:res.data.share_poster
+					}] 
+					
+				})
+			},
 			myInvitation(){
 				this.$u.route({
 							url: '/packageE/pages/invitation/index'	

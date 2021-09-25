@@ -18,6 +18,7 @@
 				:title-style="{'margin-left': '32rpx','font-size':'32rpx','color':'#333333','font-weight':''}" 
 				:value="item.area" 
 				:value-style="{'margin-right':'20rpx'}"
+				@click="select(item.id)"
 				>
 					<u-radio :name="item.id" slot="right-icon"></u-radio>
 				</u-cell-item>
@@ -42,6 +43,30 @@
 			<!--end-->
 			
 		</template>
+		
+		<view class="label">套餐包</view>
+		<view v-if="!is_buy">
+		<u-cell-group>
+			<u-cell-item 
+			:title="chooseTitle" 
+			bg-color="#FFFFFF"
+			:titleStyle="{'fontSize':'34rpx','color':'#000000'}"
+			hover-class="none"
+			@click = "choosePackage"
+			></u-cell-item>
+		</u-cell-group>
+		</view>
+		<view v-else>
+			<u-cell-group>
+					<u-cell-item :title="'套餐余量('+mer_package.left_num+'/'+mer_package.total_num+')'"
+					 bg-color="#FFFFFF"
+					 :titleStyle="{'fontSize':'34rpx','color':'#000000'}"
+					 :arrow="false"
+					 >
+					 <view slot="right-icon" class="buyBtn" @click="buy">购买 > </view>
+					 </u-cell-item>
+			</u-cell-group>
+		</view>
 		
 		
 		<!-- 未登录显示组件-->
@@ -81,6 +106,9 @@
 		<u-action-sheet :list="list" v-model="show"></u-action-sheet>
 		<!--ActionSheet  end -->
 		
+		<!-- 套餐包list-->
+		<u-action-sheet :list="packageList" v-model="packagesShow" :border-radius="32" @click="checkd"></u-action-sheet>
+		<!-- -->
 		<!--TopTips-->
 		<u-top-tips ref="uTips"></u-top-tips>
 		
@@ -134,11 +162,19 @@
 				cellList:[] ,//ip列表
 				len:0          ,//用于记录当前已经创建ip,限制3个\
 				index:'',
-				ip_id:''
+				ip_id:'',
+				packageList:[], //所有在售套餐包
+				packageListData:[],
+				packagesShow:false,
+				chooseTitle:'选择套餐包',
+				checkPackageID:'',//选中购买的id
+				is_buy:false,
+				mer_package:{},//已购买的套餐包
 			}
 		},
 		onShow(){
 			this.init()
+			this.getPackageA()
 		},
 		methods: {
 			init(){
@@ -148,8 +184,11 @@
 						this.cellList = res.data.ip_agent
 						this.len = res.data.ip_agent.length
 					}
-					
 				})
+				
+				
+				
+				
 				}
 			},
 			spff(){
@@ -165,15 +204,23 @@
 					})
 					return
 				}
+				if(!this.is_buy&&!this.checkPackageID){ //未存在购买套餐情况
+				    this.$refs.uTips.show({
+				    	title: '请选择套餐包',
+				    	type: 'primary',
+				    	duration: '2300'
+				    })
+				    return
+				}
 				this.$u.route({
 					url:'/packageB/pages/distribution/videos',
 					params: {
-						ip_id: this.ip_id
+						ip_id: this.ip_id,
+						package_id:this.checkPackageID
 					}
 				});
 			},
 			webff(){
-				console.log(this.ip_id)
 				if(!this.vuex_hasLogin){
 					this.$u.route('/packageA/pages/login/login');
 					return
@@ -186,6 +233,19 @@
 					})
 					return
 				}
+				if(!this.is_buy&&!this.checkPackageID){ //未存在购买套餐情况
+				    this.$refs.uTips.show({
+				    	title: '请选择套餐包',
+				    	type: 'primary',
+				    	duration: '2300'
+				    })
+				    return
+				}
+				this.$refs.uTips.show({
+					title: '网站分发暂时关闭',
+					type: 'primary'
+				})
+				return
 				this.$u.route({
 					url:'/packageB/pages/distribution/webff',
 					params: {
@@ -202,7 +262,7 @@
 				this.$u.route({
 					url:'/packageB/pages/distribution/bindip',
 					params: {
-						name: 'ip'+(this.len+1)
+						name: 'IP'+(this.len+1)
 					}
 					});
 			},
@@ -213,6 +273,68 @@
 						index: index
 					}
 				});
+			},
+			getMerPackage(){
+				//获取购买套餐包列表
+				if(this.vuex_hasLogin){
+				this.$u.api.getMerPackageList().then(res =>{
+					console.log(res)
+					// if(res.code == 200){
+					// 	if(res.data.data.length>0){
+					// 		this.is_buy = true
+					// 		this.buyPackageList = res.data.data
+					// 	}else{
+					// 		this.is_buy = false
+					// 	}
+					// }
+				})
+				}
+			},
+			getPackageA(){
+				if(this.vuex_hasLogin){
+				this.packageList = []
+				this.packageListData = []
+				//获取全部套餐列表
+				this.$u.api.getPackageAll().then(res =>{
+					
+					let self = this
+					if(res.code == 200){
+						if(!res.data.mer_package){ //表示没有套餐包
+							this.is_buy = false
+						}else{ //有套餐包
+							this.is_buy = true
+							this.mer_package = res.data.mer_package
+						}
+						this.packageListData = res.data.package_list
+						res.data.package_list.map(function(item){
+							self.packageList.push({
+								text:item.name+'：'+'¥'+ item.price,
+								subText:item.num+'条/'+item.price+'元'
+							})
+						})
+						
+					}
+				})
+				}
+			},
+			choosePackage(){
+				this.packagesShow = true
+			},
+			checkd(index){
+				console.log(index)
+				if(String(index)!=''){
+					console.log(this.packageListData[index])
+					this.chooseTitle = this.packageListData[index]['name']
+					this.checkPackageID = this.packageListData[index]['id']
+				}
+			},
+			select(index){
+				this.ip_id = index
+			},
+			buy(){
+				this.$u.route({
+					url:'/packageE/pages/packages/buy'
+				})
 			}
 		}
 	}
@@ -281,6 +403,9 @@
 	}
 	.addip{
 		margin-top: 29rpx;
+	}
+	.buyBtn{
+		color: #428BF4;
 	}
 	
 	

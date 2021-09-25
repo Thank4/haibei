@@ -1,16 +1,13 @@
 <template>
 	<view class="wrap">
 		<view class="header">
-			<view class="total">5000</view>
-			<view class="text">我的邀请人：coming</view>
+			<view class="total">{{data.share_money}}</view>
+			<view class="text">我的邀请人：{{data.share_name}}</view>
 		</view>
 		<view class="myInvitation">
 			<view class="title">我的邀请</view>
 			<u-cell-group>
-					<u-cell-item  title="176****4679" value="¥ 460" label="2021-09-13" :arrow="false"></u-cell-item>
-					<u-cell-item  title="176****4679" value="¥ 460" label="2021-09-13" :arrow="false"></u-cell-item>
-					<u-cell-item  title="176****4679" value="¥ 460" label="2021-09-13" :arrow="false"></u-cell-item>
-					<u-cell-item  title="176****4679" value="¥ 460" label="2021-09-13" :arrow="false"></u-cell-item>
+					<u-cell-item v-for="item in list"  :title="item.from_merchant_id" :value="'¥'+item.income_money" :label="item.created_at" :arrow="false"></u-cell-item>
 			</u-cell-group>
 		</view>
 		
@@ -18,6 +15,28 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				data:{},
+				list:[]
+			}
+		},
+		onLoad(){
+			this.init()
+		},
+		methods:{
+			init(){
+				this.$u.api.getInviter().then(res =>{
+					this.data = res.data
+				})
+				this.$u.api.getShareList().then(res =>{
+					this.list = res.data.data
+				})
+			},
+			
+		}
+	}
 </script>
 
 <style>

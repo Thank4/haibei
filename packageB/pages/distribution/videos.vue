@@ -49,13 +49,15 @@
 				current:'',
 				file_id:'',
 				preview:' ',
-				ip_id:''
+				ip_id:'',
+				package_id:''
 			
 				
 			}
 		},
 		onLoad(data) {
 			this.ip_id = data.ip_id
+			this.package_id = data.package_id
 			this.init()
 		},
 		methods:{
@@ -103,7 +105,8 @@
 					params:{
 						file_id:this.file_id, //视频id
 						preview:this.preview, //视频封面
-						ip_id:this.ip_id  //ip_id传递
+						ip_id:this.ip_id  ,//ip_id传递,
+						package_id:this.package_id//套餐包id
 					}
 				})
 			}

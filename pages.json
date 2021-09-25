@@ -31,18 +31,6 @@
             }
         }
     ],
-    // {
-    // 	"path": "pages/js/index",
-    // 	"style": { 
-    // 		"navigationBarTitleText": "工具" 
-    // 	}
-    // },
-    // {
-    // 	"path": "pages/template/index",
-    // 	"style": {
-    // 		"navigationBarTitleText": "模板"
-    // 	}
-    // }
     "subPackages" : [
         {
             "root" : "packageA",
@@ -274,7 +262,45 @@
 					        "navigationBarTitleText" : "添加银行卡"
 							
 					    }
+					},
+					{
+					    "path" : "pages/clause/apply",
+					    "style" : {
+					        "navigationBarTitleText" : "申请提现"
+					    }
+					},
+					{
+					    "path" : "pages/status/success",
+					    "style" : {
+					        "navigationBarTitleText" : "提现成功"
+					    }
+					},
+					{
+					    "path" : "pages/status/ing",
+					    "style" : {
+					        "navigationBarTitleText" : "处理中"
+					    }
+					},
+					{
+						"path" : "pages/log/index",
+						"style" : {
+						    "navigationBarTitleText" : "提现记录"
+						}
+					},
+					{
+						"path" : "pages/packages/buy",
+						"style" : {
+						    "navigationBarTitleText" : "套餐购买"
+						}
+					},
+					{
+						"path" : "pages/packages/pay",
+						"style" : {
+						    "navigationBarTitleText" : "支付"
+						}
 					}
+					
+					
 					
 		        ]
 			}
