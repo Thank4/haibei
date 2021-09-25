@@ -70,25 +70,25 @@
 				console.log(this.vuex_openId)
 				this.$u.api.buyPackage({
 					openId:this.vuex_openId,
-					package:this.value
+					package_id:this.value
 				}).then(res =>{
 					console.log(res)
-					// if(res.code == 200){
-					// 	if(res.data.status == 1){ //跳去支付
-					// 		uni.setStorageSync('order_res', res.data);
-					// 		this.$u.route({
-					// 			url:'/packageE/pages/packages/pay',
-					// 			params:{
-					// 				package_id:this.value,
-					// 			}
-					// 		})
-					// 	}else if(res.data.status==4){
-					// 		this.$refs.uToast.show({
-					// 			  title: '调起支付失败',
-					// 			})
-					// 			return
-					// 	}
-					// }
+					if(res.code == 200){
+						if(res.data.status == 1){ //跳去支付
+							uni.setStorageSync('order_res', res.data);
+							this.$u.route({
+								url:'/packageE/pages/packages/pay',
+								params:{
+									package_id:this.value,
+								}
+							})
+						}else if(res.data.status==4){
+							this.$refs.uToast.show({
+								  title: '调起支付失败',
+								})
+								return
+						}
+					}
 				})
 				
 			}

@@ -44,6 +44,7 @@
 			 <view class="total-fee u-flex-1">总计:{{total_price}}元</view>
 			 <view class="payBtn u-flex-1"><u-button type="primary" :customStyle="{'width':'328rpx',height:'100rpx'}" @click="pay">立即支付</u-button></view>
 		 </view>
+		 <u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -114,39 +115,71 @@
 			},
 			pay(){
 				let self = this
-				uni.requestPayment({
-				    provider: 'wxpay',
-					timeStamp:this.prepay.timeStamp,
-					nonceStr:this.prepay.nonceStr,
-					package: this.prepay.package,
-					signType: this.prepay.signType,
-					paySign: this.prepay.paySign,
-				    success: function (response) {
-				        //支付成功回调,并跳转页面
-						self.$u.api.setShareHistory({
-							order_no:self.order_no
-						}).then(res =>{
-							if(res.code == 200){
-								//TODO 跳转支付成功页面，提示
-								self.$u.route('/packageB/pages/distribution/paySuccess')
-							}
-						})		
-				    },
-				    fail: function (err) {
-						console.log('失败回调订单号',res.data.order_no)
-						self.$u.api.cancelPay({
-							'order_no':self.order_no
-						}).then(res => {
-							//TODO,支付失败
-							self.$refs.uToast.show({
-								title: '支付失败,请重试',
-								type: 'error',
-				
+				if(this.vip_price){
+					uni.requestPayment({
+					    provider: 'wxpay',
+						timeStamp:this.prepay.timeStamp,
+						nonceStr:this.prepay.nonceStr,
+						package: this.prepay.package,
+						signType: this.prepay.signType,
+						paySign: this.prepay.paySign,
+					    success: function (response) {
+					        //支付成功回调,并跳转页面
+							self.$u.api.setShareHistory({
+								order_no:self.order_no
+							}).then(res =>{
+								if(res.code == 200){
+									//TODO 跳转支付成功页面，提示
+									self.$u.route('/packageB/pages/distribution/paySuccess')
+								}
+							})		
+					    },
+					    fail: function (err) {
+							console.log('失败回调订单号',res.data.order_no)
+							self.$u.api.cancelPay({
+								'order_no':self.order_no
+							}).then(res => {
+								//TODO,支付失败
+								self.$refs.uToast.show({
+									title: '支付失败,请重试',
+									type: 'error',
+					
+								})
 							})
-						})
-				        console.log('fail:' + JSON.stringify(err));
-				    }
-				});
+					        console.log('fail:' + JSON.stringify(err));
+					    }
+					});
+				}else{
+					let self = this
+					uni.requestPayment({
+					    provider: 'wxpay',
+						timeStamp:this.prepay.timeStamp,
+						nonceStr:this.prepay.nonceStr,
+						package: this.prepay.package,
+						signType: this.prepay.signType,
+						paySign: this.prepay.paySign,
+					    success: function (response) {
+					        //支付成功
+							self.$refs.uToast.show({
+								title: '支付成功',
+								type: 'success',
+								isTab:true,
+								url:'/pages/tabBar/distribute/distribute'
+								
+							})
+								
+					    },
+						fail: function (err) {
+							console.log('失败回调订单号',res.data.order_no)
+								self.$refs.uToast.show({
+									title: '支付失败,请重试',
+									type: 'error',					
+								})
+						
+						}
+					});
+				}
+				
 			}
 		}
 	}
